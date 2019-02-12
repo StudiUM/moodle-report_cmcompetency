@@ -25,4 +25,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['competenciesassessment'] = 'Competencies assessment';
 $string['pluginname'] = 'Course module competency report';

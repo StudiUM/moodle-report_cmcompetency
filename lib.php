@@ -24,3 +24,20 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
+use core_competency\course_module_competency;
+
+/**
+ * This function extends the module navigation with the report items
+ *
+ * @param navigation_node $navigation The navigation node to extend
+ * @param stdClass $cm
+ */
+function report_cmcompetency_extend_navigation_module($navigation, $cm) {
+    $competencylist = course_module_competency::list_competencies($cm->id);
+    if (has_capability('moodle/competency:competencygrade', context_course::instance($cm->course)) && !empty($competencylist)) {
+        $url = new moodle_url('/report/cmcompetency/index.php', array('id' => $cm->id));
+        $navigation->add(get_string('competenciesassessment', 'report_cmcompetency'), $url,
+                navigation_node::TYPE_SETTING, null, 'cmcompetencyreport');
+    }
+}
+

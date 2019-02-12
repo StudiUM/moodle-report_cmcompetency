@@ -1,0 +1,47 @@
+.user-competency-course-navigation.coursemodule {
+    width: 280px;
+    position: relative;
+    padding-left: 10px;
+}
+.user-competency-course-navigation.coursemodule [data-action="previous-user"],
+.user-competency-course-navigation.coursemodule [data-action="next-user"] {
+    font-size: 26px;
+    display: inline-block;
+    position: absolute;
+    bottom: -3px;
+    opacity: 0;
+    animation-name: display-arrows-navigation;
+    -webkit-animation-name: display-arrows-navigation;
+    -moz-animation-name: display-arrows-navigation;
+    -webkit-animation-duration: .5s;
+    -moz-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-delay: .5s;
+    -moz-animation-delay: .5s;
+    animation-delay: .5s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+.user-competency-course-navigation.coursemodule [data-action="previous-user"] {
+    left: -16px;
+}
+.user-competency-course-navigation.coursemodule [data-action="next-user"] {
+    margin-left: -12px;
+}
+.user-competency-course-navigation.coursemodule .tag.tag-info m-b-1 {
+    margin-bottom: 0.4rem !important;
+}
+
+@keyframes display-arrows-navigation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@-webkit-keyframes display-arrows-navigation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+@-moz-keyframes display-arrows-navigation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
