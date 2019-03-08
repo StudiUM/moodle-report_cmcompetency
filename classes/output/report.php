@@ -29,6 +29,12 @@ use renderable;
 use templatable;
 use renderer_base;
 use stdClass;
+use core_competency\api as core_competency_api;
+use core_competency\external\performance_helper;
+use core_user;
+use tool_cmcompetency\api as tool_cmcompetency_api;
+use tool_cmcompetency\external\user_competency_cm_exporter;
+use tool_lp\external\competency_summary_exporter;
 
 /**
  * Class containing data for course module competency rating page.
@@ -62,8 +68,47 @@ class report implements renderable, templatable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        // TODO tableau des compétences (EVOSTDM-1588).
         $data = new stdClass();
+        $data->cmid = $this->cmid;
+        $data->userid = $this->userid;
+
+        $user = core_user::get_user($this->userid);
+
+        $data->usercompetencies = array();
+        $cmcompetencies = core_competency_api::list_course_module_competencies($this->cmid);
+        $usercompetencycoursesmodules = tool_cmcompetency_api::list_user_competencies_in_coursemodule($this->cmid, $user->id);
+
+        $helper = new performance_helper();
+        foreach ($usercompetencycoursesmodules as $usercompetencycoursemodule) {
+            $onerow = new stdClass();
+            $competency = null;
+            foreach ($cmcompetencies as $cmcompetency) {
+                if ($cmcompetency['competency']->get('id') == $usercompetencycoursemodule->get('competencyid')) {
+                    $competency = $cmcompetency['competency'];
+                    break;
+                }
+            }
+            if (!$competency) {
+                continue;
+            }
+
+            $framework = $helper->get_framework_from_competency($competency);
+            $scale = $helper->get_scale_from_competency($competency);
+
+            $exporter = new user_competency_cm_exporter($usercompetencycoursemodule, array('scale' => $scale));
+            $record = $exporter->export($output);
+            $onerow->usercompetencycoursemodule = $record;
+            $exporter = new competency_summary_exporter(null, array(
+                'competency' => $competency,
+                'framework' => $framework,
+                'context' => $framework->get_context(),
+                'relatedcompetencies' => array(),
+                'linkedcourses' => array()
+            ));
+            $onerow->competency = $exporter->export($output);
+            array_push($data->usercompetencies, $onerow);
+        }
+
         return $data;
     }
 }

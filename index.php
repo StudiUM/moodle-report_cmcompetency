@@ -65,9 +65,12 @@ $PAGE->set_cm($cm);
 $PAGE->navigation->override_active_url($navurl);
 $PAGE->set_url($url);
 $PAGE->set_title($title);
-$PAGE->set_heading(format_string($cm->name));
+$coursename = format_string($course->fullname, true, array('context' => $context));
+$PAGE->set_heading($coursename);
 $output = $PAGE->get_renderer('report_cmcompetency');
 echo $output->header();
+
+echo $output->heading(format_string($cm->name), 2);
 
 $baseurl = new moodle_url('/report/cmcompetency/index.php');
 $nav = new \report_cmcompetency\output\user_coursemodule_navigation($currentuser, $cm->id, $baseurl);
@@ -85,4 +88,13 @@ if ($currentuser > 0) {
 }
 
 echo $output->heading($title, 3);
+
+if ($currentuser > 0) {
+    $page = new \report_cmcompetency\output\report($cm->id, $currentuser);
+    echo $output->render($page);
+} else {
+    echo $output->container('', 'clearfix');
+    echo $output->notify_problem(get_string('noparticipants', 'tool_lp'));
+}
+
 echo $OUTPUT->footer();

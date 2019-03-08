@@ -1,0 +1,49 @@
+<div data-region="competency-breakdown-report" data-cmid="{{cmid}}" data-userid="{{userid}}">
+<div class="row-fluid">
+<span class="span6">
+    <table class="table table-bordered" id="coursemodulecompetencies">
+        <summary class="accesshide">
+            <p>{{#str}}cmcompetencybreakdownsummary, report_cmcompetency{{/str}}</p>
+        </summary>
+        <thead>
+            <tr>
+                <th scope="col">
+                    {{#str}}competency, report_competency{{/str}}
+                </th>
+                <th scope="col">
+                    {{#str}}rating, tool_lp{{/str}}
+                </th>
+            </tr>
+        </thead>
+        {{#usercompetencies}}
+        <tr>
+            {{#competency}}
+            <td>
+                <a href="#" data-action="competency-dialogue" data-id="{{competency.id}}">
+                    {{{competency.shortname}}} <em data-id="{{competency.id}}">{{competency.idnumber}}</em>
+                </a>
+            </td>
+            {{/competency}}
+            {{#usercompetencycoursemodule}}
+            <td class="alert {{#proficiency}}alert-success{{/proficiency}}"
+                data-user-competency="true"
+                data-userid="{{userid}}"
+                data-competencyid="{{competencyid}}"
+                data-cmid="{{cmid}}">
+                {{> report_cmcompetency/user_competency_summary}}
+            </td>
+            {{/usercompetencycoursemodule}}
+        </tr>
+        {{/usercompetencies}}
+    </table>
+</span>
+</div>
+</div>
+{{#js}}
+require(['tool_lp/competencydialogue'], function(Compdialogue) {
+    Compdialogue.init();
+});
+require(['report_cmcompetency/grading_popup_cm'], function(Popup) {
+    (new Popup('[data-region=competency-breakdown-report]', '[data-user-competency=true]'));
+});
+{{/js}}
