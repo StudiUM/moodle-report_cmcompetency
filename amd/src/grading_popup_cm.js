@@ -85,16 +85,12 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
         };
 
         /**
-         * Refresh the page.
+         * Get the data to refresh the page when the popup is closed.
          *
          * @method _refresh
          */
         GradingPopupCm.prototype._refresh = function() {
-            // TODO EVOSTDM-1589 :
-            // Fonction appelée pour récuperer les données servant à rafraichir le tableau, quand on ferme le popup.
-            // Il reste à vérifier que ce sont les bons appels de fonction et tout tester.
-
-            /*var region = $(this._regionSelector);
+            var region = $(this._regionSelector);
             var cmId = region.data('cmid');
             var userId = region.data('userid');
             ajax.call([{
@@ -102,29 +98,20 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
                 args: {cmid: cmId, userid: userId},
                 done: this._pageContextLoaded.bind(this),
                 fail: notification.exception
-            }]);*/
-
-            // TODO EVOSTDM-1589 : Enlever cette ligne, elle ne sert qu'en attendant le code plus haut.
-            this._pageContextLoaded('test');
+            }]);
         };
 
         /**
-         * We loaded the context, now render the template.
+         * We loaded the context, now render the template (refresh the page when the popup is closed).
          *
          * @method _pageContextLoaded
          * @param {Object} context
          */
         GradingPopupCm.prototype._pageContextLoaded = function(context) {
             var self = this;
-
-            // TODO EVOSTDM-1589 :
-            // Fonction appelée pour rafraichir le tableau, après avoir fermé le popup.
-            // Il reste à vérifier que ce sont les bons appels de fonction et tout tester.
-            /*var self = this;
             templates.render('report_cmcompetency/report', context).done(function(html, js) {
                 templates.replaceNode(self._regionSelector, html, js);
-            }).fail(notification.exception);*/
-            log.debug(context);
+            }).fail(notification.exception);
 
             // Destroy the popup.
             self.popup.close();

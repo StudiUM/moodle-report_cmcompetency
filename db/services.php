@@ -26,5 +26,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $functions = array(
+    'report_cmcompetency_data_for_report' => array(
+        'classname'    => 'report_cmcompetency\external',
+        'methodname'   => 'data_for_report',
+        'classpath'    => '',
+        'description'  => 'Load the data for the competency report in a course module.',
+        'type'         => 'read',
+        'capabilities' => 'moodle/competency:coursecompetencyview',
+        'ajax'         => true,
+    )
 );
 

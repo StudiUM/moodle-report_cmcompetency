@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['competenciesassessment'] = 'Competencies assessment';
+$string['applytogroup'] = 'Apply rating and evidence notes to entire group';
 $string['cmcompetencybreakdownsummary'] = 'A report of all the students in the course, and their progress towards the activity competencies';
-$string['pluginname'] = 'Course module competency report';
+$string['competenciesassessment'] = 'Competencies assessment';
+$string['pluginname'] = 'Course module competency report';;

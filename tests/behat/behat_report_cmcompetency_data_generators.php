@@ -71,12 +71,13 @@ class behat_report_cmcompetency_data_generators extends behat_base {
         $template1 = $cpg->create_template(array('shortname' => 'Medicine', 'contextid' => $cat1ctx->id));
 
         // Create scales.
-        $scale1 = $datagenerator->create_scale(array("name" => "Scale default", "scale" => "not good, good"));
+        $scale1 = $datagenerator->create_scale(array("name" => "Scale default", "scale" => "not good, good, very good"));
         $scale2 = $datagenerator->create_scale(array("name" => "Scale specific", "scale" => "not qualified, qualified"));
 
         $scaleconfiguration1 = '[{"scaleid":"'.$scale1->id.'"},' .
                 '{"name":"not good","id":1,"scaledefault":1,"proficient":0},' .
-                '{"name":"good","id":2,"scaledefault":0,"proficient":1}]';
+                '{"name":"good","id":2,"scaledefault":0,"proficient":1},' .
+                '{"name":"very good","id":3,"scaledefault":0,"proficient":1}]';
         $scaleconfiguration2 = '[{"scaleid":"'.$scale2->id.'"},' .
                 '{"name":"not qualified","id":1,"scaledefault":1,"proficient":0},' .
                 '{"name":"qualified","id":2,"scaledefault":0,"proficient":1}]';
@@ -126,6 +127,12 @@ class behat_report_cmcompetency_data_generators extends behat_base {
             'username' => 'pablom',
             'password' => 'pablom')
         );
+        $user3 = $datagenerator->create_user(array(
+            'firstname' => 'Stepanie',
+            'lastname' => 'Grant',
+            'username' => 'stepanieg',
+            'password' => 'stepanieg')
+        );
 
         // Enrol users in courses.
         $datagenerator->enrol_user($user1->id, $course1->id);
@@ -133,6 +140,33 @@ class behat_report_cmcompetency_data_generators extends behat_base {
 
         $datagenerator->enrol_user($user2->id, $course1->id);
         $datagenerator->enrol_user($user2->id, $course2->id);
+
+        $datagenerator->enrol_user($user3->id, $course1->id);
+        $datagenerator->enrol_user($user3->id, $course2->id);
+
+        // Create groups of students in course 1.
+        $groupingdata = array();
+        $groupingdata['courseid'] = $course1->id;
+        $groupingdata['name'] = 'Group assignment grouping';
+
+        $grouping = $datagenerator->create_grouping($groupingdata);
+
+        $group1data = array();
+        $group1data['courseid'] = $course1->id;
+        $group1data['name'] = 'Team 1';
+        $group2data = array();
+        $group2data['courseid'] = $course1->id;
+        $group2data['name'] = 'Team 2';
+
+        $group1 = $datagenerator->create_group($group1data);
+        $group2 = $datagenerator->create_group($group2data);
+
+        groups_assign_grouping($grouping->id, $group1->id);
+        groups_assign_grouping($grouping->id, $group2->id);
+
+        groups_add_member($group1->id, $user1->id);
+        groups_add_member($group1->id, $user2->id);
+        groups_add_member($group2->id, $user3->id);
 
         // Create and enrol teacher in courses.
         $teacher = $datagenerator->create_user(
@@ -150,12 +184,15 @@ class behat_report_cmcompetency_data_generators extends behat_base {
         $cohort = $datagenerator->create_cohort(array('contextid' => $cat1ctx->id));
         cohort_add_member($cohort->id, $user1->id);
         cohort_add_member($cohort->id, $user2->id);
+        cohort_add_member($cohort->id, $user3->id);
         // Generate plans for cohort.
         core_competency_api::create_plans_from_template_cohort($template1->get('id'), $cohort->id);
         $syscontext = context_system::instance();
 
         // Create modules for course 1.
-        $cm1 = $datagenerator->create_module('assign', array('course' => $course1->id, 'name' => 'Module 1'));
+        $options = array('course' => $course1->id, 'name' => 'Module 1',
+            'teamsubmission' => 1, 'teamsubmissiongroupingid' => $grouping->id);
+        $cm1 = $datagenerator->create_module('assign', $options);
         $cm2 = $datagenerator->create_module('forum', array('course' => $course1->id, 'name' => 'Module 2'));
 
         // Create modules for course 2.

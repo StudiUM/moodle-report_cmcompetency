@@ -34,6 +34,7 @@
         * usercompetency - user competency record
         * evidence - array of evidence
     * coursemodule - course module summary record
+    * showapplygroup - boolean
 
     This template does not have an example context because it includes ajax functionality.
 }}
@@ -70,26 +71,20 @@
         <dt>{{#str}}rating, tool_lp{{/str}}</dt>
         <dd>{{gradename}}
             {{#cangrade}}
-                <button disabled class="btn btn-secondary" id="rate_{{uniqid}}">{{#str}}rate, tool_lp{{/str}}</button>
+                <button class="btn btn-secondary" id="rate_{{uniqid}}">{{#str}}rate, tool_lp{{/str}}</button>
             {{/cangrade}}
         </dd>
         {{/usercompetencycm}}
         {{#js}}
-        /* TODO EVOSTDM-1589 :
-            - Enlever le disabled du bouton plus haut.
-            - Implanter le code javascript ci-dessous (actuellement en commentaires). */
-        /*
-        require(['jquery', 'tool_lp/grade_user_competency_inline', 'tool_lp/user_competency_info'], function($, mod, info) {
-
-            var inlineGrader = new mod('#rate_{{uniqid}}', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '', '{{course.id}}', '{{#str}}chooserating, tool_lp{{/str}}');
+        require(['jquery', 'report_cmcompetency/grade_user_competency_inline_cm', 'report_cmcompetency/user_competency_info_cm'], function($, mod, info) {
+            var inlineGrader = new mod('#rate_{{uniqid}}', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', '{{#str}}chooserating, tool_lp{{/str}}', {{showapplygroup}});
             var competencyElement = $('[data-region-id="{{uniqid}}"]');
 
             var displayuser = ('{{displayuser}}' == 'true') ? true : false;
-            var infoReloader = new info(competencyElement, '{{competency.competency.id}}', '{{user.id}}', '', '{{course.id}}', displayuser);
+            var infoReloader = new info(competencyElement, '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', displayuser);
 
             inlineGrader.on('competencyupdated', infoReloader.reload.bind(infoReloader));
-        });*/
-
+        });
         {{/js}}
     </dl>
     {{#commentarea}}
