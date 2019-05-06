@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External course module competency report API tests.
+ * Course module competency report Task tests.
  *
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
@@ -30,14 +30,14 @@ global $CFG;
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 
 /**
- * External course module competency report API tests.
+ * Course module competency report Task tests.
  *
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
+class report_cmcompetency_task_testcase extends externallib_advanced_testcase {
 
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
@@ -98,16 +98,17 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
     }
 
     /*
-     * Test add_rating_task.
+     * Test add task.
      */
-    public function test_add_rating_task() {
+    public function test_add_rate_users_in_cm_task() {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Set current user to teacher.
         $this->setUser($this->teacher1);
 
         $data = [['compid' => 1, 'value' => 2], ['compid' => 2, 'value' => 3]];
-        \report_cmcompetency\api::add_rating_task($cm->id, $data);
+        $data = json_encode($data);
+        \report_cmcompetency\external::add_rating_task($cm->id, $data);
         $taskexist = \report_cmcompetency\api::rating_task_exist($cm->id);
         $this->assertTrue($taskexist);
         $tasks = \core\task\manager::get_adhoc_tasks('report_cmcompetency\task\rate_users_in_coursemodules');
@@ -119,19 +120,20 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
         $this->assertEquals(2, $datascales[0]->value);
         $this->assertEquals(2, $datascales[1]->compid);
         $this->assertEquals(3, $datascales[1]->value);
-        // Test if save the same course module ratings.
+        // Test if save the same cours module ratings.
         try {
-            \report_cmcompetency\api::add_rating_task($cm->id, $data);
+            \report_cmcompetency\external::add_rating_task($cm->id, $data);
             $this->fail('Must fail scales values ratings for course module already exist.');
         } catch (\Exception $ex) {
             $this->assertContains(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
         }
+
     }
 
     /*
-     * Test rate_users_in_cm_with_defaultvalues.
+     * Test execute_rate_users_in_cm_task.
      */
-    public function test_rate_users_in_cm_with_defaultvalues() {
+    public function test_execute_rate_users_in_cm_task() {
         $dg = $this->getDataGenerator();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
         $cm = get_coursemodule_from_instance('page', $this->page->id);
@@ -169,12 +171,18 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
         $cpg->create_course_module_competency(array('competencyid' => $c2->get('id'), 'cmid' => $cm->id));
 
         $datascales = [];
-        $datascales['cms'] = ['cmid' => $cm->id, 'scalevalues' => [['compid' => $c1->get('id'), 'value' => 4],
-            ['compid' => $c2->get('id'), 'value' => 2]]];
-        $datascales = json_decode(json_encode($datascales));
+        $datascales = [['compid' => $c1->get('id'), 'value' => 4], ['compid' => $c2->get('id'), 'value' => 2]];
+        $datascales = json_encode($datascales);
         // Set current user to teacher.
         $this->setUser($this->teacher1);
-        \report_cmcompetency\api::rate_users_in_cm_with_defaultvalues($datascales);
+        \report_cmcompetency\external::add_rating_task($cm->id, $datascales);
+
+        // Execute task.
+        $this->setAdminUser();
+        $tasks = \core\task\manager::get_adhoc_tasks('report_cmcompetency\task\rate_users_in_coursemodules');
+        $task = reset($tasks);
+        $task->execute();
+
         // Test user1 and user2 are rated in cmp1 and cmp2.
         $u1c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c1->get('id'));
         $u1c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c2->get('id'));
@@ -184,55 +192,5 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
         $this->assertEquals(2, $u1c2->get('grade'));
         $this->assertEquals(4, $u2c1->get('grade'));
         $this->assertEquals(2, $u2c2->get('grade'));
-        // Test rating with other values of scales.
-        $datascales = [];
-        $datascales['cms'] = ['cmid' => $cm->id, 'scalevalues' => [['compid' => $c1->get('id'), 'value' => 1],
-            ['compid' => $c2->get('id'), 'value' => 3]]];
-        $datascales = json_decode(json_encode($datascales));
-        // Set current user to teacher.
-        $this->setUser($this->teacher1);
-        \report_cmcompetency\api::rate_users_in_cm_with_defaultvalues($datascales);
-        // No ratings changed.
-        $u1c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c1->get('id'));
-        $u1c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c2->get('id'));
-        $u2c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c1->get('id'));
-        $u2c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c2->get('id'));
-        $this->assertEquals(4, $u1c1->get('grade'));
-        $this->assertEquals(2, $u1c2->get('grade'));
-        $this->assertEquals(4, $u2c1->get('grade'));
-        $this->assertEquals(2, $u2c2->get('grade'));
-    }
-
-    /*
-     * Test get_list_course_modules_with_competencies.
-     */
-    public function test_get_list_course_modules_with_competencies() {
-        $dg = $this->getDataGenerator();
-        $course2 = $dg->create_course();
-        $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
-        $cm = get_coursemodule_from_instance('page', $this->page->id);
-
-        $framework = $cpg->create_framework();
-        $c1 = $cpg->create_competency(array('competencyframeworkid' => $framework->get('id'), 'shortname' => 'c1'));
-        $c2 = $cpg->create_competency(array('competencyframeworkid' => $framework->get('id'), 'shortname' => 'c2'));
-        // Create some course competencies.
-        $cpg->create_course_competency(array('competencyid' => $c1->get('id'), 'courseid' => $this->course1->id));
-        $cpg->create_course_competency(array('competencyid' => $c2->get('id'), 'courseid' => $this->course1->id));
-        $cpg->create_course_competency(array('competencyid' => $c1->get('id'), 'courseid' => $course2->id));
-        $cpg->create_course_competency(array('competencyid' => $c2->get('id'), 'courseid' => $course2->id));
-
-        // Link competencies to course modules.
-        $cpg->create_course_module_competency(array('competencyid' => $c1->get('id'), 'cmid' => $cm->id));
-        $cpg->create_course_module_competency(array('competencyid' => $c2->get('id'), 'cmid' => $cm->id));
-
-        // Set current user to teacher.
-        $this->setUser($this->teacher1);
-        // Course 1.
-        $cmids = \report_cmcompetency\api::get_list_course_modules_with_competencies($this->course1->id);
-        $this->assertCount(1, $cmids);
-        $this->assertEquals($cm->id, $cmids[0]);
-        // Course 2.
-        $cmids = \report_cmcompetency\api::get_list_course_modules_with_competencies($course2->id);
-        $this->assertCount(0, $cmids);
     }
 }

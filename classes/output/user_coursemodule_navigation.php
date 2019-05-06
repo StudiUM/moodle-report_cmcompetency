@@ -71,7 +71,7 @@ class user_coursemodule_navigation implements renderable, templatable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG, $PAGE;
+        global $CFG, $PAGE, $OUTPUT;
 
         $data = new stdClass();
         $data->userid = $this->userid;
@@ -122,9 +122,14 @@ class user_coursemodule_navigation implements renderable, templatable {
                 $data->users[] = $user;
             }
             $data->hasusers = true;
+            $ratingbtnurl = new \moodle_url('/report/cmcompetency/bulkrating.php',
+                    ['courseid' => $cm->course, 'id' => $cm->id]);
+            $data->btnbulkrating = $OUTPUT->single_button($ratingbtnurl,
+                    get_string('bulkdefaultrating', 'report_cmcompetency'), 'get');
         } else {
             $data->users = array();
             $data->hasusers = false;
+            $data->btnbulkrating = '';
         }
 
         return $data;

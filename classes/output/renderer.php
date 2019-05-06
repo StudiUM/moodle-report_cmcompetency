@@ -63,6 +63,17 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
+     * Defer to template.
+     *
+     * @param default_values_ratings $page
+     * @return string html for the page
+     */
+    public function render_default_values_ratings(default_values_ratings $page) {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('report_cmcompetency/bulk_rating', $data);
+    }
+
+    /**
      * Output a notification.
      *
      * @param string $message the message to print out

@@ -88,7 +88,6 @@ if ($currentuser > 0) {
 }
 
 echo $output->heading($title, 3);
-
 if ($currentuser > 0) {
     $page = new \report_cmcompetency\output\report($cm->id, $currentuser);
     echo $output->render($page);

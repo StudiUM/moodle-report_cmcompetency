@@ -116,4 +116,55 @@ class external extends external_api {
         ));
     }
 
+    /**
+     * Returns description of add_rating_task() parameters.
+     *
+     * @return \external_function_parameters
+     */
+    public static function add_rating_task_parameters() {
+        $cmid = new external_value(
+            PARAM_INT,
+            'The course module id',
+            VALUE_REQUIRED
+        );
+        $defaultscalesvalues = new external_value(
+            PARAM_RAW,
+            'Default scales values',
+            VALUE_REQUIRED
+        );
+        $params = array(
+            'cmid' => $cmid,
+            'defaultscalesvalues' => $defaultscalesvalues
+        );
+        return new external_function_parameters($params);
+    }
+
+    /**
+     * Add task for rating competencies in course modules.
+     *
+     * @param int $cmid The course module id
+     * @param string $defaultscalesvalues Default scales values
+     * @return boolean
+     */
+    public static function add_rating_task($cmid, $defaultscalesvalues) {
+        $params = self::validate_parameters(
+            self::add_rating_task_parameters(),
+            array(
+                'cmid' => $cmid,
+                'defaultscalesvalues' => $defaultscalesvalues
+            )
+        );
+        api::add_rating_task($params['cmid'], json_decode($params['defaultscalesvalues']));
+        return true;
+    }
+
+    /**
+     * Returns description of add_rating_task() result value.
+     *
+     * @return \external_description
+     */
+    public static function add_rating_task_returns() {
+        return new external_value(PARAM_BOOL, 'True if adding was successful');
+    }
+
 }

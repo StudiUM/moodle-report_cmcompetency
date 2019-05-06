@@ -34,6 +34,15 @@ $functions = array(
         'type'         => 'read',
         'capabilities' => 'moodle/competency:coursecompetencyview',
         'ajax'         => true,
+    ),
+    'report_cmcompetency_add_rating_task' => array(
+        'classname'    => 'report_cmcompetency\external',
+        'methodname'   => 'add_rating_task',
+        'classpath'    => '',
+        'description'  => 'Add task for rating competencies in course modules',
+        'type'         => 'write',
+        'capabilities' => 'moodle/competency:competencygrade',
+        'ajax'         => true,
     )
 );
 

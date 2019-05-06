@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'report_cmcompetency', language 'en'
+ * Adhoc task handling rating users in course modules.
  *
  * @package    report_cmcompetency
  * @author     Issam Taboubi <issam.taboubi@umontreal.ca>
@@ -23,14 +23,33 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace report_cmcompetency\task;
+use \report_cmcompetency\api;
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['applytogroup'] = 'Apply rating and evidence notes to entire group';
-$string['bulkdefaultrating'] = 'Bulk rating for all students for all competencies of this activity';
-$string['cmcompetencybreakdownsummary'] = 'A report of all the students in the course, and their progress towards the activity competencies';
-$string['competenciesassessment'] = 'Competencies assessment';
-$string['donotapplybulk'] = 'Do not bulk rate this competency';
-$string['pluginname'] = 'Course module competency report';
-$string['noticebulkrating'] = 'Users already rated will not be impacted';
-$string['successtaskmsg'] = 'Evaluations will be executed soon';
-$string['taskratingrunning'] = 'Evaluations are running for this activity, please wait for it to finish before starting a new one';
+/**
+ * Adhoc task handling rating users in course modules.
+ *
+ * @package    report_cmcompetency
+ * @author     Issam Taboubi <issam.taboubi@umontreal.ca>
+ * @copyright  2019 Université de Montréal
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class rate_users_in_coursemodules extends \core\task\adhoc_task {
+
+    /**
+     * Run the rating task.
+     */
+    public function execute() {
+        global $CFG;
+        require_once($CFG->dirroot. '/course/lib.php');
+
+        // Set the proper user.
+        $user = \core_user::get_user($this->get_userid(), '*', MUST_EXIST);
+        cron_setup_user($user);
+
+        // Rate users in course module.
+        api::rate_users_in_cm_with_defaultvalues($this->get_custom_data());
+    }
+}
