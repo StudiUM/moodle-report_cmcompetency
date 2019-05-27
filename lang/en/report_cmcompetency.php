@@ -25,12 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['applytogroup'] = 'Apply rating and evidence notes to entire group';
+$string['applytogroup'] = 'Apply rating and evidence notes to the entire group';
 $string['bulkdefaultrating'] = 'Bulk rating for all students for all competencies of this activity';
 $string['cmcompetencybreakdownsummary'] = 'A report of all the students in the course, and their progress towards the activity competencies';
 $string['competenciesassessment'] = 'Competencies assessment';
 $string['donotapplybulk'] = 'Do not bulk rate this competency';
 $string['pluginname'] = 'Course module competency report';
-$string['noticebulkrating'] = 'Users already rated will not be impacted';
+$string['noticebulkrating'] = 'Rated students won\'t be impacted';
 $string['successtaskmsg'] = 'Evaluations will be executed soon';
-$string['taskratingrunning'] = 'Evaluations are running for this activity, please wait for it to finish before starting a new one';
+$string['taskratingrunning'] = 'Evaluation is in progress, please wait for it to finish before starting a new one';
