@@ -88,17 +88,11 @@ class user_coursemodule_navigation implements renderable, templatable {
                 $select = groups_print_activity_menu($cm, $PAGE->url, true);
                 $data->groupselector = $select;
             }
-            // Fetch showactive.
-            $defaultgradeshowactiveenrol = !empty($CFG->grade_report_showonlyactiveenrol);
-            $showonlyactiveenrol = get_user_preferences('grade_report_showonlyactiveenrol', $defaultgradeshowactiveenrol);
-            $showonlyactiveenrol = $showonlyactiveenrol || !has_capability('moodle/course:viewsuspendedusers', $context);
 
             // Fetch current active group.
             $groupmode = groups_get_activity_groupmode($cm);
 
-            $users = get_enrolled_users($context, 'moodle/competency:coursecompetencygradable', $currentgroup,
-                                        'u.*', null, 0, 0, $showonlyactiveenrol);
-
+            $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false);
             $data->users = array();
             $users = array_values($users);
             $data->nextuserurl = null;
@@ -118,7 +112,6 @@ class user_coursemodule_navigation implements renderable, templatable {
                         $data->nextuserurl = new \moodle_url('/report/cmcompetency/index.php', $urlparams);
                     }
                 }
-
                 $data->users[] = $user;
             }
             $data->hasusers = true;

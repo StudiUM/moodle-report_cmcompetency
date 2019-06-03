@@ -26,7 +26,7 @@ Feature: View the competencies report for an activity
     And I should see "Module 1" in the "User competency summary" "dialogue"
     And I should see "not good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I should see "My note for Rebecca" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "not good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     # For Pablo
@@ -42,7 +42,7 @@ Feature: View the competencies report for an activity
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
     And I should see "good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
 
@@ -73,7 +73,7 @@ Feature: View the competencies report for an activity
     And I should see "Competency B" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
     And I should see "qualified" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "qualified" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     # For Pablo

@@ -99,21 +99,17 @@ class api {
             $cmid = $compdata->cms->cmid;
             $cm = get_coursemodule_from_id('', $cmid, 0, true);
             $context = \context_course::instance($cm->course);
-            $users = get_enrolled_users($context, 'moodle/competency:coursecompetencygradable', 0, 'u.id');
+            $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm);
             foreach ($users as $user) {
-                $modinfo = get_fast_modinfo($cm->course, $user->id);
-                $cm = $modinfo->get_cm($cmid);
-                if ($cm->uservisible) {
-                    foreach ($compdata->cms->scalevalues as $data) {
-                        $ucc = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cmid, $user->id, $data->compid);
-                        if ($ucc->get('grade') === null) {
-                            try {
-                                \tool_cmcompetency\api::grade_competency_in_coursemodule($cmid, $user->id, $data->compid,
-                                        $data->value);
-                            } catch (\Exception $ex) {
-                                mtrace($ex->getMessage());
-                                continue;
-                            }
+                foreach ($compdata->cms->scalevalues as $data) {
+                    $ucc = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cmid, $user->id, $data->compid);
+                    if ($ucc->get('grade') === null) {
+                        try {
+                            \tool_cmcompetency\api::grade_competency_in_coursemodule($cmid, $user->id, $data->compid,
+                                    $data->value);
+                        } catch (\Exception $ex) {
+                            mtrace($ex->getMessage());
+                            continue;
                         }
                     }
                 }

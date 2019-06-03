@@ -39,14 +39,14 @@ groups_get_activity_groupmode($cm);
 $currentgroup = groups_get_activity_group($cm, true);
 
 if (empty($currentuser)) {
-    $gradable = get_enrolled_users($context, 'moodle/competency:coursecompetencygradable', $currentgroup, 'u.id', null, 0, 1);
+    $gradable = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, true);
     if (empty($gradable)) {
         $currentuser = 0;
     } else {
         $currentuser = array_pop($gradable)->id;
     }
 } else {
-    $gradable = get_enrolled_users($context, 'moodle/competency:coursecompetencygradable', $currentgroup, 'u.id');
+    $gradable = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false);
     if (count($gradable) == 0) {
         $currentuser = 0;
     } else if (!in_array($currentuser, array_keys($gradable))) {

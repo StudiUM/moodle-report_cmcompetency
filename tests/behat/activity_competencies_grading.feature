@@ -22,9 +22,9 @@ Feature: Grade the competencies for an activity
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "very good"
     And I set the field "comment" to "This is a note for Rebecca and Pablo"
-    #And I should see "Apply rating and evidence notes to entire group"
-    And "Apply rating and evidence notes to entire group" "checkbox" should exist
-    And the "Apply rating and evidence notes to entire group" "checkbox" should be checked
+    #And I should see "Apply rating and evidence notes to the entire group"
+    And "Apply rating and evidence notes to the entire group" "checkbox" should exist
+    And the "Apply rating and evidence notes to the entire group" "checkbox" should be checked
     And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
@@ -32,7 +32,7 @@ Feature: Grade the competencies for an activity
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I click on "very good" "link" in the "Competency A" "table_row"
     And I should see "This is a note for Rebecca and Pablo" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "very good" in the "Competency A" "table_row"
@@ -45,24 +45,24 @@ Feature: Grade the competencies for an activity
     And "User competency summary" "dialogue" should be visible
     And I should see "very good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I should see "This is a note for Rebecca and Pablo" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Rate" "button"
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "not good"
     And I set the field "comment" to "This is a note for Pablo only"
-    And "Apply rating and evidence notes to entire group" "checkbox" should exist
-    And the "Apply rating and evidence notes to entire group" "checkbox" should be checked
-    And I click on "Apply rating and evidence notes to entire group" "checkbox"
+    And "Apply rating and evidence notes to the entire group" "checkbox" should exist
+    And the "Apply rating and evidence notes to the entire group" "checkbox" should be checked
+    And I click on "Apply rating and evidence notes to the entire group" "checkbox"
     And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
     And I should see "not good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I should see "This is a note for Pablo only" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "not good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "This is a note for Rebecca and Pablo" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[2]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[2]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[2]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[2]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "not good" in the "Competency A" "table_row"
@@ -75,7 +75,7 @@ Feature: Grade the competencies for an activity
     And "User competency summary" "dialogue" should be visible
     And I should see "very good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I should see "This is a note for Rebecca and Pablo" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
 
@@ -94,7 +94,7 @@ Feature: Grade the competencies for an activity
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "very good"
     And I set the field "comment" to "This is a note for Rebecca"
-    And "Apply rating and evidence notes to entire group" "checkbox" should not exist
+    And "Apply rating and evidence notes to the entire group" "checkbox" should not exist
     And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
@@ -102,7 +102,7 @@ Feature: Grade the competencies for an activity
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I click on "very good" "link" in the "Competency A" "table_row"
     And I should see "This is a note for Rebecca" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "very good" in the "Competency A" "table_row"
@@ -117,7 +117,7 @@ Feature: Grade the competencies for an activity
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "not good"
     And I set the field "comment" to "This is a note for Pablo only"
-    And "Apply rating and evidence notes to entire group" "checkbox" should not exist
+    And "Apply rating and evidence notes to the entire group" "checkbox" should not exist
     And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
@@ -125,7 +125,7 @@ Feature: Grade the competencies for an activity
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I click on "not good" "link" in the "Competency A" "table_row"
     And I should see "This is a note for Pablo only" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
-    And I should see "The competency rating was manually set in the course module" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "not good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "not good" in the "Competency A" "table_row"
