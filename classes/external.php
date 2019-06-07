@@ -132,9 +132,16 @@ class external extends external_api {
             'Default scales values',
             VALUE_REQUIRED
         );
+        $group = new external_value(
+            PARAM_INT,
+            'The group id',
+            VALUE_DEFAULT,
+            0
+        );
         $params = array(
             'cmid' => $cmid,
-            'defaultscalesvalues' => $defaultscalesvalues
+            'defaultscalesvalues' => $defaultscalesvalues,
+            'group' => $group
         );
         return new external_function_parameters($params);
     }
@@ -144,17 +151,19 @@ class external extends external_api {
      *
      * @param int $cmid The course module id
      * @param string $defaultscalesvalues Default scales values
+     * @param int $group The group id (can be 0 if no groups)
      * @return boolean
      */
-    public static function add_rating_task($cmid, $defaultscalesvalues) {
+    public static function add_rating_task($cmid, $defaultscalesvalues, $group = 0) {
         $params = self::validate_parameters(
             self::add_rating_task_parameters(),
             array(
                 'cmid' => $cmid,
-                'defaultscalesvalues' => $defaultscalesvalues
+                'defaultscalesvalues' => $defaultscalesvalues,
+                'group' => $group
             )
         );
-        api::add_rating_task($params['cmid'], json_decode($params['defaultscalesvalues']));
+        api::add_rating_task($params['cmid'], json_decode($params['defaultscalesvalues']), $params['group']);
         return true;
     }
 

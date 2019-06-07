@@ -115,8 +115,11 @@ class user_coursemodule_navigation implements renderable, templatable {
                 $data->users[] = $user;
             }
             $data->hasusers = true;
-            $ratingbtnurl = new \moodle_url('/report/cmcompetency/bulkrating.php',
-                    ['courseid' => $cm->course, 'id' => $cm->id]);
+            $urloptions = ['courseid' => $cm->course, 'id' => $cm->id];
+            if (!empty($currentgroup)) {
+                $urloptions['group'] = $currentgroup;
+            }
+            $ratingbtnurl = new \moodle_url('/report/cmcompetency/bulkrating.php', $urloptions);
             $data->btnbulkrating = $OUTPUT->single_button($ratingbtnurl,
                     get_string('bulkdefaultrating', 'report_cmcompetency'), 'get');
         } else {

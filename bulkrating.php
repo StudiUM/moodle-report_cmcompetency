@@ -80,15 +80,21 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
             echo $OUTPUT->notification(get_string('nocompetenciesincm', 'tool_cmcompetency'),
                     \core\output\notification::NOTIFY_INFO);
         } else {
+            // Group navigation if the activity has separated groups.
+            $currentgroup = groups_get_activity_group($cm, true);
+            if ($currentgroup !== false) {
+                $groupselect = groups_print_activity_menu($cm, $PAGE->url, true);
+                echo $output->container($groupselect, 'pull-left well');
+            }
             echo $output->container('', 'clearfix');
             echo $OUTPUT->notification(get_string('noticebulkrating', 'report_cmcompetency'),
                 \core\output\notification::NOTIFY_INFO);
-            $exist = \report_cmcompetency\api::rating_task_exist($currentcmid);
+            $exist = \report_cmcompetency\api::rating_task_exist($currentcmid, $currentgroup);
             if ($exist) {
                 echo $OUTPUT->notification(get_string('taskratingrunning', 'report_cmcompetency'),
                     \core\output\notification::NOTIFY_WARNING);
             }
-            $report = new \report_cmcompetency\output\default_values_ratings($course->id, $currentcmid);
+            $report = new \report_cmcompetency\output\default_values_ratings($course->id, $currentcmid, $currentgroup);
             echo $output->render($report);
         }
     } else {

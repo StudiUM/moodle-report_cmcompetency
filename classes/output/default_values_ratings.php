@@ -47,15 +47,20 @@ class default_values_ratings implements renderable, templatable {
     /** @var int $cmid */
     protected $cmid;
 
+    /** @var int $group */
+    protected $group;
+
     /**
      * Construct.
      *
-     * @param int $courseid
-     * @param int $cmid
+     * @param int $courseid The course id
+     * @param int $cmid The course module id
+     * @param int $group The group id
      */
-    public function __construct($courseid, $cmid) {
+    public function __construct($courseid, $cmid, $group) {
         $this->courseid = $courseid;
         $this->cmid = $cmid;
+        $this->group = $group;
     }
 
     /**
@@ -67,7 +72,7 @@ class default_values_ratings implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         $data = new stdClass();
         $comps = \core_competency\course_module_competency::list_competencies($this->cmid);
-        $data->submitdisabled = \report_cmcompetency\api::rating_task_exist($this->cmid);
+        $data->submitdisabled = \report_cmcompetency\api::rating_task_exist($this->cmid, $this->group);
         $data->hascompetencies = count($comps) == 0 ? 0 : 1;
         $data->courseid = $this->courseid;
         $data->cmid = $this->cmid;

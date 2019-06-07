@@ -60,8 +60,9 @@ class api {
      *
      * @param int $cmid The course module id
      * @param string $scalesvalues json scale values
+     * @param int $group The group id
      */
-    public static function add_rating_task($cmid, $scalesvalues) {
+    public static function add_rating_task($cmid, $scalesvalues, $group = 0) {
         global $USER;
         $cm = get_coursemodule_from_id('', $cmid, 0, true);
         // Check if current user has capability to grade in course.
@@ -70,7 +71,7 @@ class api {
             throw new required_capability_exception($context, 'moodle/competency:competencygrade', 'nopermissions', '');
         }
         // Check if there is current task for this course module.
-        if (self::rating_task_exist($cmid)) {
+        if (self::rating_task_exist($cmid, $group)) {
             throw new \moodle_exception('taskratingrunning', 'report_cmcompetency');
         }
 
@@ -78,6 +79,7 @@ class api {
         $customdata = [];
         $customdata['cmid'] = $cmid;
         $customdata['scalevalues'] = $scalesvalues;
+        $customdata['group'] = $group;
 
         $task = new \report_cmcompetency\task\rate_users_in_coursemodules();
         $task->set_custom_data(array(
@@ -99,14 +101,13 @@ class api {
             $cmid = $compdata->cms->cmid;
             $cm = get_coursemodule_from_id('', $cmid, 0, true);
             $context = \context_course::instance($cm->course);
-            $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm);
+            $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $compdata->cms->group);
             foreach ($users as $user) {
                 foreach ($compdata->cms->scalevalues as $data) {
                     $ucc = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cmid, $user->id, $data->compid);
                     if ($ucc->get('grade') === null) {
                         try {
-                            \tool_cmcompetency\api::grade_competency_in_coursemodule($cmid, $user->id, $data->compid,
-                                    $data->value);
+                            \tool_cmcompetency\api::grade_competency_in_coursemodule($cmid, $user->id, $data->compid, $data->value);
                         } catch (\Exception $ex) {
                             mtrace($ex->getMessage());
                             continue;
@@ -121,16 +122,25 @@ class api {
      * Check if task exist for course module.
      *
      * @param int $cmid the course module id
+     * @param int $group the group id (can be 0 if no groups)
      * @return boolean return true if task exist
      */
-    public static function rating_task_exist($cmid) {
+    public static function rating_task_exist($cmid, $group) {
+        if (empty($group)) {
+            $group = 0;
+        }
         $exist = false;
         $tasks = \core\task\manager::get_adhoc_tasks('report_cmcompetency\task\rate_users_in_coursemodules');
         foreach ($tasks as $task) {
             $cmdata = $task->get_custom_data();
             if ($cmdata->cms && $cmdata->cms->cmid == $cmid) {
-                $exist = true;
-                break;
+                // There is already a task for this specific group, or for the whole course,
+                // or for a group when trying to make one for the whole course.
+                if ($cmdata->cms->group == $group || ($group == 0 && $cmdata->cms->group != 0) ||
+                        ($group != 0 && $cmdata->cms->group == 0)) {
+                    $exist = true;
+                    break;
+                }
             }
         }
         return $exist;

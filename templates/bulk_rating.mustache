@@ -32,60 +32,60 @@
  }}
 {{#hascompetencies}}
     <form id="savescalesvalues">
-    <div class="scale-comp-container">
-    {{#datascalecompetencies}}
-    <div class="scale-comp-item">
-    <table class="table table-condensed enabled" id="rating_table_comp{{compid}}">
-        <caption class="cr-caption">
-            <a href="#"
-                data-action="competency-dialogue"
-                data-includecourses="true"
-                data-id="{{compid}}"
-                title="{{idnumber}}"
-                role="button">
-                {{idnumber}} - {{compshortname}}
-            </a>
-        </caption>
-        <thead>
-            <tr>
-                <th scope="col">{{#str}}scalevalue, tool_lp{{/str}}</th>
-                <th scope="col">{{#str}}default, tool_lp{{/str}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#scalevalues}}
-            <tr class="tool_lp_scale_config">
-                <td>{{name}}</td>
-                <td><input type="radio" name="scale_{{compid}}" data-compid="{{compid}}" value="{{value}}" {{#default}}checked="checked"{{/default}} />
-                {{#proficient}}
-                <span aria-selected="true" class="tag tag-info" >
-                {{#str}}proficient, tool_lp{{/str}}
-                </span>
-                {{/proficient}}
-                </td>
-            </tr>
-            {{/scalevalues}}
-        </tbody>
-    </table>
-    <div class="donotapplybulk">
-        <label><input type="checkbox" data-compid="{{compid}}" />{{#str}}donotapplybulk, report_cmcompetency{{/str}}</label>
-    </div>
-    </div>
-    {{/datascalecompetencies}}
-    </div>
-    <div id="msg-success-cmrating"class="alert alert-success alert-block fade in hidden">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{#str}}successtaskmsg, report_cmcompetency{{/str}}
-    </div>
-    <div data-region="scale-buttons" class="m-t-1 pull-xs-right">
-        <input type="submit" class="btn btn-primary" data-action="submit" value="{{#str}}save{{/str}}" {{#submitdisabled}}disabled{{/submitdisabled}} />
-    </div>
+        <div class="scale-comp-container">
+            {{#datascalecompetencies}}
+            <div class="scale-comp-item">
+                <table class="table table-condensed enabled" id="rating_table_comp{{compid}}">
+                    <caption class="cr-caption">
+                        <a href="#"
+                            data-action="competency-dialogue"
+                            data-includecourses="true"
+                            data-id="{{compid}}"
+                            title="{{idnumber}}"
+                            role="button">
+                            {{idnumber}} - {{compshortname}}
+                        </a>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">{{#str}}scalevalue, tool_lp{{/str}}</th>
+                            <th scope="col">{{#str}}default, tool_lp{{/str}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#scalevalues}}
+                        <tr class="tool_lp_scale_config">
+                            <td>{{name}}</td>
+                            <td><input type="radio" name="scale_{{compid}}" data-compid="{{compid}}" value="{{value}}" {{#default}}checked="checked"{{/default}} />
+                            {{#proficient}}
+                            <span aria-selected="true" class="tag tag-info" >
+                            {{#str}}proficient, tool_lp{{/str}}
+                            </span>
+                            {{/proficient}}
+                            </td>
+                        </tr>
+                        {{/scalevalues}}
+                    </tbody>
+                </table>
+                <div class="donotapplybulk">
+                    <label><input type="checkbox" data-compid="{{compid}}" />{{#str}}donotapplybulk, report_cmcompetency{{/str}}</label>
+                </div>
+            </div>
+            {{/datascalecompetencies}}
+        </div>
+        <div id="msg-success-cmrating"class="alert alert-success alert-block fade in hidden">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{#str}}successtaskmsg, report_cmcompetency{{/str}}
+        </div>
+        <div data-region="scale-buttons" class="m-t-1 pull-xs-right">
+            <input type="submit" class="btn btn-primary" data-action="submit" value="{{#str}}save{{/str}}" {{#submitdisabled}}disabled{{/submitdisabled}} />
+        </div>
     </form>
 {{/hascompetencies}}
 <div class="clearfix"></div>
 {{#js}}
-require(['tool_lp/competencydialogue', 'report_cmcompetency/bulkrating'], function(Compdialogue, BulkRating) {
-    Compdialogue.init();
-    BulkRating.init({{cmid}});
-});
+    require(['tool_lp/competencydialogue', 'report_cmcompetency/bulkrating'], function(Compdialogue, BulkRating) {
+        Compdialogue.init();
+        BulkRating.init({{cmid}});
+    });
 {{/js}}

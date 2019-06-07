@@ -64,11 +64,20 @@ define(['jquery',
                 scalesvalues.push({compid : compid, value : $(this).val()});
             });
             scalesvalues = JSON.stringify(scalesvalues);
+            var group = $('#selectgroup select[name=group]');
+            if (group.length > 0) {
+                group = group.val();
+            } else {
+                group = 0;
+            }
+
             requests = ajax.call([{
                 methodname: 'report_cmcompetency_add_rating_task',
                 args: {
                     cmid: self.cmid,
-                    defaultscalesvalues: scalesvalues}
+                    defaultscalesvalues: scalesvalues,
+                    group: group
+                }
             }]);
 
             requests[0].done(function(context) {
