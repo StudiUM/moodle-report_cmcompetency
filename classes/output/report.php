@@ -32,6 +32,7 @@ use stdClass;
 use core_competency\api as core_competency_api;
 use core_competency\external\performance_helper;
 use core_user;
+use context_module;
 use tool_cmcompetency\api as tool_cmcompetency_api;
 use tool_cmcompetency\external\user_competency_cm_exporter;
 use tool_lp\external\competency_summary_exporter;
@@ -73,6 +74,8 @@ class report implements renderable, templatable {
         $data->userid = $this->userid;
 
         $user = core_user::get_user($this->userid);
+        $contextcm = context_module::instance($this->cmid);
+        $data->contextid = $contextcm->id;
 
         $data->usercompetencies = array();
         $cmcompetencies = core_competency_api::list_course_module_competencies($this->cmid);

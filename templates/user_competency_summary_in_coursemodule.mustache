@@ -77,11 +77,12 @@
         {{/usercompetencycm}}
         {{#js}}
         require(['jquery', 'report_cmcompetency/grade_user_competency_inline_cm', 'report_cmcompetency/user_competency_info_cm'], function($, mod, info) {
-            var inlineGrader = new mod('#rate_{{uniqid}}', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', '{{#str}}chooserating, tool_lp{{/str}}', {{showapplygroup}});
+
+            var inlineGrader = new mod('#rate_{{uniqid}}', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', '{{#str}}chooserating, tool_lp{{/str}}', {{showapplygroup}}, '{{contextid}}');
             var competencyElement = $('[data-region-id="{{uniqid}}"]');
 
             var displayuser = ('{{displayuser}}' == 'true') ? true : false;
-            var infoReloader = new info(competencyElement, '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', displayuser);
+            var infoReloader = new info(competencyElement, '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', displayuser, '{{contextid}}');
 
             inlineGrader.on('competencyupdated', infoReloader.reload.bind(infoReloader));
         });

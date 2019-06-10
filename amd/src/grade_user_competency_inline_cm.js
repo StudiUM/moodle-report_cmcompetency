@@ -28,7 +28,7 @@ define(['jquery',
         'core/log',
         'report_cmcompetency/grade_dialogue_cm',
         'tool_lp/event_base',
-        'tool_lp/scalevalues',
+        'tool_lp/scalevalues'
     ], function($, notification, ajax, log, GradeDialogue, EventBase, ScaleValues) {
 
         /**
@@ -41,8 +41,10 @@ define(['jquery',
          * @param {Number} coursemoduleId The id of the course module.
          * @param {String} chooseStr Language string for choose a rating.
          * @param {Boolean} showApplyGroup True if the option to grade group should be visible.
+         * @param {Number} contextid The context id.
          */
-        var InlineEditorCm = function(selector, scaleId, competencyId, userId, coursemoduleId, chooseStr, showApplyGroup) {
+        var InlineEditorCm = function(selector, scaleId, competencyId, userId, coursemoduleId, chooseStr,
+                showApplyGroup, contextid) {
             EventBase.prototype.constructor.apply(this, []);
 
             var trigger = $(selector);
@@ -56,6 +58,7 @@ define(['jquery',
             this._coursemoduleId = coursemoduleId;
             this._chooseStr = chooseStr;
             this._showApplyGroup = showApplyGroup;
+            this.contextid = contextid;
             this._setUp();
 
             trigger.click(function(e) {
@@ -96,11 +99,11 @@ define(['jquery',
                     });
                 }
 
-                self._dialogue = new GradeDialogue(options, self._showApplyGroup);
+                self._dialogue = new GradeDialogue(options, self._showApplyGroup, self.contextid);
                 self._dialogue.on('rated', function(e, data) {
                     var args = self._args;
                     args.grade = data.rating;
-                    args.note = data.note;
+                    args.note = self._dialogue._find('form').serialize();
                     args.applygroup = data.applygroup;
                     ajax.call([{
                         methodname: self._methodName,
@@ -128,6 +131,8 @@ define(['jquery',
         InlineEditorCm.prototype._dialogue = null;
         /** @type {Boolean} True if the option to grade group should be visible. */
         InlineEditorCm.prototype._showApplyGroup = false;
+        /** @type {Number} The context id. */
+        InlineEditorCm.prototype.contextid = null;
 
         return InlineEditorCm;
     });

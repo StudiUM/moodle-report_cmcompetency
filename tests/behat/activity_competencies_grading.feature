@@ -9,7 +9,11 @@ Feature: Grade the competencies for an activity
 
   Scenario: Rate the activity 1 (group assignment)
     # For Rebecca
-    Given I follow "Module 1"
+    Given I follow "Private files"
+    And I upload "report/cmcompetency/tests/fixtures/moodlelogo.png" file to "Files" filemanager
+    And I click on "Save changes" "button"
+    And I am on "Anatomy" course homepage
+    And I follow "Module 1"
     When I click on "Activity administration" "button"
     And I follow "Competencies assessment"
     Then I should see "Module 1" in the "//h2" "xpath_element"
@@ -21,17 +25,24 @@ Feature: Grade the competencies for an activity
     And I click on "Rate" "button"
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "very good"
-    And I set the field "comment" to "This is a note for Rebecca and Pablo"
-    #And I should see "Apply rating and evidence notes to the entire group"
+    And I set the field "Evidence notes" to "This is a note for Rebecca and Pablo"
     And "Apply rating and evidence notes to the entire group" "checkbox" should exist
     And the "Apply rating and evidence notes to the entire group" "checkbox" should be checked
-    And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
+    And I click on "Image" "button" in the "//*[@data-fieldtype='editor']" "xpath_element"
+    And I click on "Browse repositories..." "button"
+    And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
+    And I click on "moodlelogo.png" "link"
+    And I click on "Select this file" "button"
+    And I set the field "Describe this image for someone who cannot see it" to "Moodle logo"
+    And I click on "Save image" "button"
+    And I click on "//input[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
     And I should see "very good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I click on "very good" "link" in the "Competency A" "table_row"
     And I should see "This is a note for Rebecca and Pablo" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
+    And "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]//img[contains(@src, 'moodlelogo.png') and @alt='Moodle logo']" "xpath_element" should exist
     And I should see "The competency rating was manually set in the course activity" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
@@ -50,11 +61,11 @@ Feature: Grade the competencies for an activity
     And I click on "Rate" "button"
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "not good"
-    And I set the field "comment" to "This is a note for Pablo only"
+    And I set the field "Evidence notes" to "This is a note for Pablo only"
     And "Apply rating and evidence notes to the entire group" "checkbox" should exist
     And the "Apply rating and evidence notes to the entire group" "checkbox" should be checked
     And I click on "Apply rating and evidence notes to the entire group" "checkbox"
-    And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
+    And I click on "//input[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
     And I should see "not good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
@@ -93,9 +104,9 @@ Feature: Grade the competencies for an activity
     And I click on "Rate" "button"
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "very good"
-    And I set the field "comment" to "This is a note for Rebecca"
+    And I set the field "Evidence notes" to "This is a note for Rebecca"
     And "Apply rating and evidence notes to the entire group" "checkbox" should not exist
-    And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
+    And I click on "//input[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
     And I should see "very good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
@@ -116,9 +127,9 @@ Feature: Grade the competencies for an activity
     And I click on "Rate" "button"
     And "Rate" "dialogue" should be visible
     And I set the field "rating" to "not good"
-    And I set the field "comment" to "This is a note for Pablo only"
+    And I set the field "Evidence notes" to "This is a note for Pablo only"
     And "Apply rating and evidence notes to the entire group" "checkbox" should not exist
-    And I click on "//button[contains(@data-action, 'rate')]" "xpath_element"
+    And I click on "//input[contains(@data-action, 'rate')]" "xpath_element"
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
     And I should see "not good" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"

@@ -44,6 +44,6 @@ require(['tool_lp/competencydialogue'], function(Compdialogue) {
     Compdialogue.init();
 });
 require(['report_cmcompetency/grading_popup_cm'], function(Popup) {
-    (new Popup('[data-region=competency-breakdown-report]', '[data-user-competency=true]'));
+    (new Popup('[data-region=competency-breakdown-report]', '[data-user-competency=true]', '{{contextid}}'));
 });
 {{/js}}

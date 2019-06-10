@@ -27,17 +27,21 @@ define(['jquery',
         'core/templates',
         'tool_lp/dialogue',
         'tool_lp/event_base',
-        'core/str'
-    ], function($, Notification, Templates, Dialogue, EventBase, Str) {
+        'core/str',
+        'core/fragment'
+    ], function($, Notification, Templates, Dialogue, EventBase, Str, Fragment) {
 
         /**
          * Grade Course module dialogue class.
          * @param {Array} ratingOptions
+         * @param {Boolean} showApplyGroup
+         * @param {Number} contextid
          */
-        var GradeCm = function(ratingOptions, showApplyGroup) {
+        var GradeCm = function(ratingOptions, showApplyGroup, contextid) {
             EventBase.prototype.constructor.apply(this, []);
             this._ratingOptions = ratingOptions;
             this._showApplyGroup = showApplyGroup;
+            this.contextid = contextid;
         };
         GradeCm.prototype = Object.create(EventBase.prototype);
 
@@ -45,6 +49,8 @@ define(['jquery',
         GradeCm.prototype._popup = null;
         /** @type {Array} Array of objects containing, 'value', 'name' and optionally 'selected'. */
         GradeCm.prototype._ratingOptions = null;
+        /** @type {Number} The context id. */
+        GradeCm.prototype.contextid = null;
 
         /**
          * After render hook.
@@ -55,7 +61,6 @@ define(['jquery',
         GradeCm.prototype._afterRender = function() {
             var btnRate = this._find('[data-action="rate"]'),
                 lstRating = this._find('[name="rating"]'),
-                txtComment = this._find('[name="comment"]'),
                 applyGroup = this._find('[name="applygroup"]');
 
             this._find('[data-action="cancel"]').click(function(e) {
@@ -85,7 +90,6 @@ define(['jquery',
                 }
                 this._trigger('rated', {
                     'rating': val,
-                    'note': txtComment.val(),
                     'applygroup': valgroup
                 });
                 this.close();
@@ -98,8 +102,10 @@ define(['jquery',
          * @method close
          */
         GradeCm.prototype.close = function() {
-            this._popup.close();
-            this._popup = null;
+            if (this._popup) {
+                this._popup.close();
+                this._popup = null;
+            }
         };
 
         /**
@@ -110,13 +116,16 @@ define(['jquery',
          * @return {Promise}
          */
         GradeCm.prototype.display = function() {
-            return this._render().then(function(html) {
+            return this._render().then(function(html, js) {
                 return Str.get_string('rate', 'tool_lp').then(function(title) {
                     this._popup = new Dialogue(
                         title,
                         html,
-                        this._afterRender.bind(this)
+                        this._afterRender.bind(this),
+                        this.close.bind(this),
+                        true
                     );
+                    Templates.runTemplateJS(js);
                 }.bind(this));
             }.bind(this)).fail(Notification.exception);
         };
@@ -141,12 +150,13 @@ define(['jquery',
          * @return {Promise}
          */
         GradeCm.prototype._render = function() {
-            var context = {
-                cangrade: this._canGrade,
-                ratings: this._ratingOptions,
-                showapplygroup: this._showApplyGroup
-            };
-            return Templates.render('report_cmcompetency/competency_grader_cm', context);
+            var args = {};
+            args.canGrade = (this._canGrade) ? true : false;
+            args.ratingOptions = JSON.stringify(this._ratingOptions);
+            args.showapplygroup = (this._showApplyGroup) ? true : false;
+            args.contextid = this.contextid;
+
+            return Fragment.loadFragment('tool_cmcompetency', 'grade_cm', this.contextid, args);
         };
 
         return GradeCm;

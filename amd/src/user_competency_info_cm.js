@@ -32,11 +32,13 @@ define(['jquery', 'core/notification', 'core/ajax', 'core/templates'], function(
      * @param {Number} userId The id of the user.
      * @param {Number} coursemoduleId The id of the course module.
      * @param {Boolean} displayuser If we should display the user info.
+     * @param {Number} contextid The context id.
      */
-    var InfoCm = function(rootElement, competencyId, userId, coursemoduleId, displayuser) {
+    var InfoCm = function(rootElement, competencyId, userId, coursemoduleId, displayuser, contextid) {
         this._rootElement = rootElement;
         this._competencyId = competencyId;
         this._userId = userId;
+        this.contextid = contextid;
         this._coursemoduleId = coursemoduleId;
         this._valid = true;
         this._displayuser = (typeof displayuser !== 'undefined') ? displayuser : false;
@@ -69,6 +71,7 @@ define(['jquery', 'core/notification', 'core/ajax', 'core/templates'], function(
             if (self._displayuser) {
                 context.displayuser = true;
             }
+            context.contextid = self.contextid;
             templates.render(self._templateName, context).done(function(html, js) {
                 templates.replaceNode(self._rootElement, html, js);
             }).fail(notification.exception);
@@ -93,6 +96,8 @@ define(['jquery', 'core/notification', 'core/ajax', 'core/templates'], function(
     InfoCm.prototype._templateName = null;
     /** @type {Boolean} If we should display the user info? */
     InfoCm.prototype._displayuser = false;
+    /** @type {Number} The context id. */
+    InfoCm.prototype.contextid = null;
 
     return InfoCm;
 

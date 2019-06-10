@@ -30,11 +30,12 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
          *
          * @param {String} regionSelector The regionSelector
          * @param {String} userCompetencySelector The userCompetencySelector
+         * @param {Number} contextid The context id
          */
-        var GradingPopupCm = function(regionSelector, userCompetencySelector) {
+        var GradingPopupCm = function(regionSelector, userCompetencySelector, contextid) {
             this._regionSelector = regionSelector;
             this._userCompetencySelector = userCompetencySelector;
-
+            this.contextid = contextid;
             $(this._regionSelector).on('click', this._userCompetencySelector, this._handleClick.bind(this));
         };
 
@@ -76,6 +77,7 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
             var self = this;
             // We have to display user info in popup.
             context.displayuser = true;
+            context.contextid = self.contextid;
             templates.render('report_cmcompetency/user_competency_summary_in_coursemodule', context).done(function(html, js) {
                 str.get_string('usercompetencysummary', 'report_competency').done(function(title) {
                     self.popup = new Dialogue(title, html, templates.runTemplateJS.bind(templates, js),
@@ -109,6 +111,7 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
          */
         GradingPopupCm.prototype._pageContextLoaded = function(context) {
             var self = this;
+            context.contextid = self.contextid;
             templates.render('report_cmcompetency/report', context).done(function(html, js) {
                 templates.replaceNode(self._regionSelector, html, js);
             }).fail(notification.exception);
@@ -123,6 +126,9 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
 
         /** @type {String} The selector for the region with a single user competencies */
         GradingPopupCm.prototype._userCompetencySelector = null;
+
+        /** @type {Number} The context id */
+        GradingPopupCm.prototype.contextid = null;
 
         /** @var {Dialogue} popup  The popup window (Dialogue). */
         GradingPopupCm.prototype.popup = null;
