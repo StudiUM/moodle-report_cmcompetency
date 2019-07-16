@@ -31,6 +31,7 @@ $string['cmcompetencybreakdownsummary'] = 'A report of all the students in the c
 $string['competenciesassessment'] = 'Competencies assessment';
 $string['donotapplybulk'] = 'Do not bulk rate this competency';
 $string['pluginname'] = 'Course module competency report';
+$string['privacy:metadata'] = 'The Cmcompetency plugin does not store any personal data.';
 $string['noticebulkrating'] = 'Rated students won\'t be impacted';
 $string['successtaskmsg'] = 'Evaluations will be executed soon';
 $string['taskratingrunning'] = 'Evaluation is in progress, please wait for it to finish before starting a new one';
