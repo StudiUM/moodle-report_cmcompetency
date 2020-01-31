@@ -9,8 +9,7 @@ Feature: Bulk rate competencies for an activity
     When I log in as "teacher"
     And I am on "Anatomy" course homepage
     And I follow "Module 2"
-    And I click on "Activity administration" "button"
-    And I follow "Competencies assessment"
+    And I navigate to "Competencies assessment" in current page administration
     Then I should see "Bulk rating for all students for all competencies of this activity"
 
   Scenario: Bulk rate an activity without groups and one competency
@@ -47,8 +46,7 @@ Feature: Bulk rate competencies for an activity
     # Check that Stepanie have been rated, but not Rebecca (who was already rated).
     And I am on "Anatomy" course homepage
     And I follow "Module 1"
-    And I click on "Activity administration" "button"
-    And I follow "Competencies assessment"
+    And I navigate to "Competencies assessment" in current page administration
     And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Ste"
     And I click on "Stepanie Grant" item in the autocomplete list
     And I should see "good" in the "Competency A" "table_row"
@@ -92,8 +90,7 @@ Feature: Bulk rate competencies for an activity
     # Check that Rebecca and Pablo have been rated, but not Stepanie (who is in team 2).
     And I am on "Anatomy" course homepage
     And I follow "Module 2"
-    And I click on "Activity administration" "button"
-    And I follow "Competencies assessment"
+    And I navigate to "Competencies assessment" in current page administration
     And I set the field "group" to "All participants"
     And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Ste"
     And I click on "Stepanie Grant" item in the autocomplete list
