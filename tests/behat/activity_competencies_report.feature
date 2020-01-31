@@ -10,8 +10,7 @@ Feature: View the competencies report for an activity
   Scenario: View the competency report in activity 1
     # For Rebecca
     Given I follow "Module 1"
-    When I click on "Activity administration" "button"
-    And I follow "Competencies assessment"
+    When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 1" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
     And I should see "Competencies assessment"
@@ -49,8 +48,7 @@ Feature: View the competencies report for an activity
   Scenario: View the competency report in activity 2
     # For Rebecca
     Given I follow "Module 2"
-    When I click on "Activity administration" "button"
-    And I follow "Competencies assessment"
+    When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 2" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
     And I should see "Competencies assessment"
