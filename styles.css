@@ -1,14 +1,16 @@
 .user-competency-course-navigation.coursemodule {
-    width: 280px;
+    min-width: 280px;
     position: relative;
     padding-left: 10px;
+    left: 20px;
+    bottom: 10px;
 }
 .user-competency-course-navigation.coursemodule [data-action="previous-user"],
 .user-competency-course-navigation.coursemodule [data-action="next-user"] {
     font-size: 26px;
     display: inline-block;
     position: absolute;
-    bottom: -3px;
+    bottom: 0px;
     opacity: 0;
     animation-name: display-arrows-navigation;
     -webkit-animation-name: display-arrows-navigation;
@@ -27,7 +29,7 @@
     left: -16px;
 }
 .user-competency-course-navigation.coursemodule [data-action="next-user"] {
-    margin-left: -12px;
+    margin-left: 3px;
 }
 .user-competency-course-navigation.coursemodule .tag.tag-info m-b-1 {
     margin-bottom: 0.4rem !important;

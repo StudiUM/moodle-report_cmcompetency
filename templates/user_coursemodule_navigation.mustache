@@ -4,7 +4,7 @@
 <form class="user-competency-course-navigation coursemodule">
 {{#hasusers}}
     {{#previoususerurl}}
-    <a href="{{{previoususerurl}}}" data-action="previous-user">&#9664;</a>
+        <a href="{{{previoususerurl}}}" data-action="previous-user"><i class="fa fa-chevron-circle-left hidden" aria-hidden="true"></i></a>
     {{/previoususerurl}}
     <span>
     <label for="user-nav-{{uniqid}}" class="accesshide">{{#str}}jumptouser, tool_lp{{/str}}</label>
@@ -15,16 +15,21 @@
     </select>
     </span>
     {{#nextuserurl}}
-    <a href="{{{nextuserurl}}}" data-action="next-user">&#9658;</a>
+        <a href="{{{nextuserurl}}}" data-action="next-user"><i class="fa fa-chevron-circle-right hidden" aria-hidden="true"></i></a>
     {{/nextuserurl}}
 {{/hasusers}}
 </form>
 </div>
 {{#js}}
 require(['core/form-autocomplete', 'report_competency/user_course_navigation'], function(autocomplete, nav) {
-    (new nav('#user-nav-{{uniqid}}', '{{baseurl}}', {{userid}}, {{cmid}}));
-{{#hasusers}}
-    autocomplete.enhance('#user-nav-{{uniqid}}', false, false, {{# quote }}{{# str }}jumptouser, tool_lp{{/ str }}{{/ quote }});
-{{/hasusers}}
+    (new nav('#user-nav-{{uniqid}}', '#module-nav-{{uniqid}}', '{{baseurl}}', {{userid}}, {{cmid}}));
+    {{#hasusers}}
+        var enhanced = autocomplete.enhance('#user-nav-{{uniqid}}', false, false, {{# quote }}{{# str }}jumptouser, tool_lp{{/ str }}{{/ quote }});
+        return $.when(enhanced)
+            .then(function(enhanced) {
+                $('[data-action=previous-user] i').removeClass('hidden');
+                $('[data-action=next-user] i').removeClass('hidden');
+            });
+    {{/hasusers}}
 });
 {{/js}}
