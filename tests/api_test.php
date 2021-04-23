@@ -60,7 +60,7 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
     /** @var stdClass $framework Competency framework. */
     protected $framework = null;
 
-    protected function setUp() {
+    protected function setUp(): void {
         $this->resetAfterTest(true);
         $dg = $this->getDataGenerator();
         $lpg = $dg->get_plugin_generator('core_competency');
@@ -130,7 +130,7 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
             \report_cmcompetency\api::add_rating_task($cm->id, $data);
             $this->fail('Must fail scales values ratings for course module already exist.');
         } catch (\Exception $ex) {
-            $this->assertContains(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
+            $this->assertStringContainsString(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
         }
     }
 
@@ -190,14 +190,14 @@ class report_cmcompetency_api_testcase extends externallib_advanced_testcase {
             \report_cmcompetency\api::add_rating_task($cm->id, $data, $group2->id);
             $this->fail('Must fail scales values ratings for course module already exist.');
         } catch (\Exception $ex) {
-            $this->assertContains(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
+            $this->assertStringContainsString(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
         }
         // For all groups.
         try {
             \report_cmcompetency\api::add_rating_task($cm->id, $data);
             $this->fail('Must fail scales values ratings for course module already exist.');
         } catch (\Exception $ex) {
-            $this->assertContains(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
+            $this->assertStringContainsString(get_string('taskratingrunning', 'report_cmcompetency'), $ex->getMessage());
         }
         // For group1 (tasks does not exist yet).
         \report_cmcompetency\api::add_rating_task($cm->id, $data, $group1->id);
