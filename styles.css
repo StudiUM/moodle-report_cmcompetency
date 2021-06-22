@@ -34,6 +34,9 @@
 .user-competency-course-navigation.coursemodule .badge.badge-info m-b-1 {
     margin-bottom: 0.4rem !important;
 }
+.user-competency-course-navigation.coursemodule span>.d-md-inline-block.position-relative {
+    display: inline-block;
+}
 
 @keyframes display-arrows-navigation {
     0% {opacity: 0;}
