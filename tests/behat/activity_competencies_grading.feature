@@ -9,7 +9,7 @@ Feature: Grade the competencies for an activity
 
   Scenario: Rate the activity 1 (group assignment)
     # For Rebecca
-    Given I follow "Module 1"
+    Given I am on the "Module 1" "assign activity" page
     When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 1" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
@@ -36,7 +36,7 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "Competency A" "table_row"
     
     # For Pablo
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Pablo"
+    And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
     And I should see "very good" in the "Competency A" "table_row"
     And I click on "very good" "link" in the "Competency A" "table_row"
@@ -66,7 +66,7 @@ Feature: Grade the competencies for an activity
     And I should see "not good" in the "Competency A" "table_row"
 
     # For Rebecca - keeps same evaluation because group evaluation not applied.
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Rebecca"
+    And I open the autocomplete suggestions list
     And I click on "Rebecca Armenta" item in the autocomplete list
     And I should see "very good" in the "Competency A" "table_row"
     And I click on "very good" "link" in the "Competency A" "table_row"
@@ -79,7 +79,7 @@ Feature: Grade the competencies for an activity
 
  Scenario: Rate the activity 1 (forum - no groups)
     # For Rebecca
-    Given I follow "Module 2"
+    Given I am on the "Module 2" "forum activity" page
     When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 2" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
@@ -105,7 +105,7 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "Competency A" "table_row"
     
     # For Pablo
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Pablo"
+    And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
     And I should see "Not rated" in the "Competency A" "table_row"
     And I click on "Not rated" "link" in the "Competency A" "table_row"

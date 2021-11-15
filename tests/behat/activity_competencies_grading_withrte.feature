@@ -1,4 +1,4 @@
-@report @javascript @report_cmcompetency @_file_upload
+@report @javascript @report_cmcompetency @_file_upload @report_cmcompetencyrte
 Feature: Grade the competencies for an activity
   As a teacher
 
@@ -13,8 +13,7 @@ Feature: Grade the competencies for an activity
     Given I follow "Private files"
     And I upload "report/cmcompetency/tests/fixtures/moodlelogo.png" file to "Files" filemanager
     And I click on "Save changes" "button"
-    And I am on "Anatomy" course homepage
-    And I follow "Module 1"
+    And I am on the "Module 1" "assign activity" page
     When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 1" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
@@ -49,7 +48,7 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "Competency A" "table_row"
     
     # For Pablo
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Pablo"
+    And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
     And I should see "very good" in the "Competency A" "table_row"
     And I click on "very good" "link" in the "Competency A" "table_row"

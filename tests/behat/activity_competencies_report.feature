@@ -9,7 +9,7 @@ Feature: View the competencies report for an activity
 
   Scenario: View the competency report in activity 1
     # For Rebecca
-    Given I follow "Module 1"
+    Given I am on the "Module 1" "assign activity" page
     When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 1" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
@@ -29,7 +29,7 @@ Feature: View the competencies report for an activity
     And I should see "not good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     # For Pablo
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Pablo"
+    And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
     And I should not see "Competency B"
     And I should see "good" in the "Competency A" "table_row"
@@ -47,7 +47,7 @@ Feature: View the competencies report for an activity
 
   Scenario: View the competency report in activity 2
     # For Rebecca
-    Given I follow "Module 2"
+    Given I am on the "Module 2" "forum activity" page
     When I navigate to "Competencies assessment" in current page administration
     Then I should see "Module 2" in the "//h2" "xpath_element"
     And I should see "Rebecca Armenta"
@@ -75,7 +75,7 @@ Feature: View the competencies report for an activity
     And I should see "qualified" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     # For Pablo
-    And I set the field with xpath "//input[contains(@id, 'form_autocomplete_input')]" to "Pablo"
+    And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
     And I should see "Not rated" in the "Competency A" "table_row"
     And I should see "Not rated" in the "Competency B" "table_row"
