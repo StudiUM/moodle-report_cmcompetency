@@ -16,7 +16,7 @@
 /**
  * Module to enable inline editing of a comptency grade for a course module.
  *
- * @package    report_cmcompetency
+ * @module     report_cmcompetency/grade_user_competency_inline_cm
  * @copyright  2019 Université de Montréal
  * @author     Marie-Eve Lévesque <marie-eve.levesque.8@umontreal.ca>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -47,8 +47,9 @@ define(['jquery',
                 showApplyGroup, contextid) {
             EventBase.prototype.constructor.apply(this, []);
 
-            var trigger = $(selector);
-            if (!trigger.length) {
+            this.trigger = $(selector);
+
+            if (!this.trigger.length) {
                 throw new Error('Could not find the trigger');
             }
 
@@ -60,11 +61,6 @@ define(['jquery',
             this._showApplyGroup = showApplyGroup;
             this.contextid = contextid;
             this._setUp();
-
-            trigger.click(function(e) {
-                e.preventDefault();
-                this._dialogue.display();
-            }.bind(this));
 
             this._methodName = 'tool_cmcompetency_grade_competency_in_coursemodule';
             this._args = {
@@ -99,7 +95,7 @@ define(['jquery',
                     });
                 }
 
-                self._dialogue = new GradeDialogue(options, self._showApplyGroup, self.contextid);
+                self._dialogue = new GradeDialogue(options, self._showApplyGroup, self.contextid, self.trigger);
                 self._dialogue.on('rated', function(e, data) {
                     var args = self._args;
                     args.grade = data.rating;
@@ -113,6 +109,9 @@ define(['jquery',
                         },
                         fail: notification.exception
                     }]);
+                });
+                self._dialogue.on('popupdestroyed', function() {
+                    self._setUp();
                 });
             }).fail(notification.exception);
         };
@@ -133,6 +132,7 @@ define(['jquery',
         InlineEditorCm.prototype._showApplyGroup = false;
         /** @type {Number} The context id. */
         InlineEditorCm.prototype.contextid = null;
+        InlineEditorCm.prototype.trigger = null;
 
         return InlineEditorCm;
     });

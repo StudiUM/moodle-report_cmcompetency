@@ -71,14 +71,14 @@
         <dt>{{#str}}rating, tool_lp{{/str}}</dt>
         <dd>{{gradename}}
             {{#cangrade}}
-                <button class="btn btn-secondary" id="rate_{{uniqid}}">{{#str}}rate, tool_lp{{/str}}</button>
+                <button class="btn btn-secondary ratecompetency" id="rate_{{uniqid}}">{{#str}}rate, tool_lp{{/str}}</button>
             {{/cangrade}}
         </dd>
         {{/usercompetencycm}}
         {{#js}}
         require(['jquery', 'report_cmcompetency/grade_user_competency_inline_cm', 'report_cmcompetency/user_competency_info_cm'], function($, mod, info) {
 
-            var inlineGrader = new mod('#rate_{{uniqid}}', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', '{{#str}}chooserating, tool_lp{{/str}}', {{showapplygroup}}, '{{contextid}}');
+            var inlineGrader = new mod('.ratecompetency', '{{competency.scaleid}}', '{{competency.competency.id}}', '{{user.id}}', '{{coursemodule.id}}', '{{#str}}chooserating, tool_lp{{/str}}', {{showapplygroup}}, '{{contextid}}');
             var competencyElement = $('[data-region-id="{{uniqid}}"]');
 
             var displayuser = ('{{displayuser}}' == 'true') ? true : false;

@@ -20,6 +20,7 @@ Feature: View the competencies report for an activity
     And "Competency A" "dialogue" should be visible
     And I click on "Close" "button" in the "Competency A" "dialogue"
     And I click on "not good" "link" in the "Competency A" "table_row"
+    And I wait "1" seconds
     And "User competency summary" "dialogue" should be visible
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
@@ -37,6 +38,7 @@ Feature: View the competencies report for an activity
     And "Competency A" "dialogue" should be visible
     And I click on "Close" "button" in the "Competency A" "dialogue"
     And I click on "good" "link" in the "Competency A" "table_row"
+    And I wait "1" seconds
     And "User competency summary" "dialogue" should be visible
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 1" in the "User competency summary" "dialogue"
@@ -61,12 +63,14 @@ Feature: View the competencies report for an activity
     And "Competency B" "dialogue" should be visible
     And I click on "Close" "button" in the "Competency B" "dialogue"
     And I click on "Not rated" "link" in the "Competency A" "table_row"
+    And I wait "1" seconds
     And "User competency summary" "dialogue" should be visible
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
     And I should see "-" in the "//dl/dt[text()='Rating']/following-sibling::dd[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I click on "qualified" "link" in the "Competency B" "table_row"
+    And I wait "1" seconds
     And "User competency summary" "dialogue" should be visible
     And I should see "Competency B" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"
@@ -83,6 +87,7 @@ Feature: View the competencies report for an activity
     And "Competency B" "dialogue" should be visible
     And I click on "Close" "button" in the "Competency B" "dialogue"
     And I click on "Not rated" "link" in the "Competency A" "table_row"
+    And I wait "1" seconds
     And "User competency summary" "dialogue" should be visible
     And I should see "Competency A" in the "User competency summary" "dialogue"
     And I should see "Module 2" in the "User competency summary" "dialogue"

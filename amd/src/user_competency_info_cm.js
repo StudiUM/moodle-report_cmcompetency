@@ -16,7 +16,7 @@
 /**
  * Module to refresh a user competency summary for a course module in a page.
  *
- * @package    report_cmcompetency
+ * @module     report_cmcompetency/user_competency_info_cm
  * @copyright  2019 Université de Montréal
  * @author     Marie-Eve Lévesque <marie-eve.levesque.8@umontreal.ca>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

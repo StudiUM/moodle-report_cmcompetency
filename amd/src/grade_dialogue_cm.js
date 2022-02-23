@@ -16,7 +16,7 @@
 /**
  * Grade dialogue for course modules.
  *
- * @package    report_cmcompetency
+ * @module     report_cmcompetency/grade_dialogue_cm
  * @copyright  2019 Université de Montréal
  * @author     Marie-Eve Lévesque <marie-eve.levesque.8@umontreal.ca>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,28 +25,31 @@
 define(['jquery',
         'core/notification',
         'core/templates',
-        'tool_lp/dialogue',
+        'core/modal_factory',
+        'core/modal_events',
         'tool_lp/event_base',
         'core/str',
         'core/fragment'
-    ], function($, Notification, Templates, Dialogue, EventBase, Str, Fragment) {
+    ], function($, Notification, Templates, ModalFactory, ModalEvents, EventBase, Str, Fragment) {
 
         /**
          * Grade Course module dialogue class.
          * @param {Array} ratingOptions
          * @param {Boolean} showApplyGroup
          * @param {Number} contextid
+         * @param {object} trigger the element trigger
          */
-        var GradeCm = function(ratingOptions, showApplyGroup, contextid) {
+        var GradeCm = function(ratingOptions, showApplyGroup, contextid, trigger) {
             EventBase.prototype.constructor.apply(this, []);
             this._ratingOptions = ratingOptions;
             this._showApplyGroup = showApplyGroup;
             this.contextid = contextid;
+            this.display($(trigger));
         };
         GradeCm.prototype = Object.create(EventBase.prototype);
 
         /** @type {Dialogue} The dialogue. */
-        GradeCm.prototype._popup = null;
+        GradeCm.prototype.modal = null;
         /** @type {Array} Array of objects containing, 'value', 'name' and optionally 'selected'. */
         GradeCm.prototype._ratingOptions = null;
         /** @type {Number} The context id. */
@@ -59,14 +62,13 @@ define(['jquery',
          * @protected
          */
         GradeCm.prototype._afterRender = function() {
-            var btnRate = this._find('[data-action="rate"]'),
+            var btnRate = this._find('[data-action="save"]'),
                 lstRating = this._find('[name="rating"]'),
                 applyGroup = this._find('[name="applygroup"]');
 
             this._find('[data-action="cancel"]').click(function(e) {
                 e.preventDefault();
                 this._trigger('cancelled');
-                this.close();
             }.bind(this));
 
             lstRating.change(function() {
@@ -92,42 +94,58 @@ define(['jquery',
                     'rating': val,
                     'applygroup': valgroup
                 });
-                this.close();
             }.bind(this));
         };
 
         /**
-         * Close the dialogue.
+         * destroy the dialogue.
          *
-         * @method close
+         * @method destroy
          */
-        GradeCm.prototype.close = function() {
-            if (this._popup) {
-                this._popup.close();
-                this._popup = null;
-            }
+        GradeCm.prototype.destroy = function() {
+            this.modal.destroy();
         };
 
         /**
          * Opens the picker.
          *
-         * @param {Number} competencyId The competency ID of the competency to work on.
+         * @param {object} trigger the element trigger
          * @method display
          * @return {Promise}
          */
-        GradeCm.prototype.display = function() {
-            return this._render().then(function(html, js) {
+        GradeCm.prototype.display = function(trigger) {
                 return Str.get_string('rate', 'tool_lp').then(function(title) {
-                    this._popup = new Dialogue(
-                        title,
-                        html,
-                        this._afterRender.bind(this),
-                        this.close.bind(this),
-                        true
-                    );
-                    Templates.runTemplateJS(js);
-                }.bind(this));
-            }.bind(this)).fail(Notification.exception);
+                    return ModalFactory.create({
+                        type: ModalFactory.types.SAVE_CANCEL,
+                        title: title,
+                        body: '',
+                        large: true,
+                        buttons: {
+                            save: title,
+                        }
+                    }, trigger).done(function(modal) {
+                        // Keep a reference to the modal.
+                        this.modal = modal;
+                        // We want to reset the form every time it is opened.
+                        this.modal.getRoot().on(ModalEvents.shown, function() {
+                            this.modal.setBody(this._render());
+                        }.bind(this));
+
+                        this.modal.getRoot().on(ModalEvents.hidden, function() {
+                            this._trigger('popupdestroyed');
+                            this.modal.destroy();
+                        }.bind(this));
+
+                        // We want to hide the submit buttons of the form every time it is opened.
+                        this.modal.getRoot().on(ModalEvents.bodyRendered, function() {
+                            this.modal.getRoot().find('[data-groupname=buttonar]').addClass('hidden');
+                            this._afterRender();
+                        }.bind(this));
+
+                        return this.modal;
+                    }.bind(this));
+
+                }.bind(this)).fail(Notification.exception);
         };
 
         /**
@@ -139,7 +157,7 @@ define(['jquery',
          * @protected
          */
         GradeCm.prototype._find = function(selector) {
-            return $(this._popup.getContent()).find(selector);
+            return this.modal.getRoot().find(selector);
         };
 
         /**

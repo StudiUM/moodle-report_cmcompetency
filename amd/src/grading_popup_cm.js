@@ -16,14 +16,15 @@
 /**
  * Module to enable inline editing of a comptency grade for a course module.
  *
- * @package    report_cmcompetency
+ * @module     report_cmcompetency/grading_popup_cm
  * @copyright  2019 Université de Montréal
  * @author     Marie-Eve Lévesque <marie-eve.levesque.8@umontreal.ca>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'core/templates', 'tool_lp/dialogue'],
-    function($, notification, str, ajax, log, templates, Dialogue) {
+define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'core/templates',
+    'core/modal_factory', 'core/modal_events'],
+    function($, notification, str, ajax, log, templates, ModalFactory, ModalEvents) {
 
         /**
          * GradingPopupCm
@@ -62,7 +63,7 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
             }]);
 
             $.when.apply($, requests).then(function(context) {
-                this._contextLoaded.bind(this)(context);
+                this._contextLoaded.bind(this)(context, cell);
                 return;
             }.bind(this)).catch(notification.exception);
         };
@@ -72,18 +73,27 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
          *
          * @method _contextLoaded
          * @param {Object} context
+         * @param {Object} cell
          */
-        GradingPopupCm.prototype._contextLoaded = function(context) {
+        GradingPopupCm.prototype._contextLoaded = function(context, cell) {
             var self = this;
             // We have to display user info in popup.
             context.displayuser = true;
             context.contextid = self.contextid;
-            templates.render('report_cmcompetency/user_competency_summary_in_coursemodule', context).done(function(html, js) {
-                str.get_string('usercompetencysummary', 'report_competency').done(function(title) {
-                    self.popup = new Dialogue(title, html, templates.runTemplateJS.bind(templates, js),
-                        self._refresh.bind(self), true);
-                }).fail(notification.exception);
+            return str.get_string('usercompetencysummary', 'report_competency').done(function(title) {
+                    return ModalFactory.create({
+                        type: ModalFactory.types.DEFAULT,
+                        title: title,
+                        body: templates.render('report_cmcompetency/user_competency_summary_in_coursemodule', context),
+                        large: true
+                    }, cell).done(function(modal) {
+                        // Keep a reference to the modal.
+                        self.popup = modal;
+                        self.popup.getRoot().on(ModalEvents.hidden, self._refresh.bind(self));
+                        self.popup.show();
+                    }.bind(this));
             }).fail(notification.exception);
+
         };
 
         /**
@@ -95,6 +105,7 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
             var region = $(this._regionSelector);
             var cmId = region.data('cmid');
             var userId = region.data('userid');
+            this.popup.destroy();
             ajax.call([{
                 methodname: 'report_cmcompetency_data_for_report',
                 args: {cmid: cmId, userid: userId},
@@ -115,10 +126,6 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
             templates.render('report_cmcompetency/report', context).done(function(html, js) {
                 templates.replaceNode(self._regionSelector, html, js);
             }).fail(notification.exception);
-
-            // Destroy the popup.
-            self.popup.close();
-            self.popup = null;
         };
 
         /** @type {String} The selector for the region with the user competencies */

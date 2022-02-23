@@ -16,7 +16,7 @@
 /**
  * Bulk rating.
  *
- * @package    report_cmcompetency
+ * @module     report_cmcompetency/bulkrating
  * @author     Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright  2019 Université de Montréal
  */
@@ -28,7 +28,7 @@ define(['jquery',
 
         /**
          * Default scales values object.
-         * @param {Number} The course module id
+         * @param {Number} cmid The course module id
          */
         var BulkRating = function(cmid) {
             this.cmid = cmid;
