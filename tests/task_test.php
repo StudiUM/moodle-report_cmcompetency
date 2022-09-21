@@ -23,6 +23,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace report_cmcompetency;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -37,7 +39,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report_cmcompetency_task_testcase extends externallib_advanced_testcase {
+class task_test extends \externallib_advanced_testcase {
 
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
@@ -72,8 +74,8 @@ class report_cmcompetency_task_testcase extends externallib_advanced_testcase {
         $this->student3 = $dg->create_user();
         $this->course1 = $dg->create_course();
 
-        $sysctx = context_system::instance();
-        $c1ctx = context_course::instance($this->course1->id);
+        $sysctx = \context_system::instance();
+        $c1ctx = \context_course::instance($this->course1->id);
 
         $canviewucrole = $dg->create_role();
         assign_capability('moodle/competency:usercompetencyview', CAP_ALLOW, $canviewucrole, $sysctx->id);
@@ -94,7 +96,7 @@ class report_cmcompetency_task_testcase extends externallib_advanced_testcase {
         // Enrol students in the course.
         $studentarch = get_archetype_roles('student');
         $studentrole = array_shift($studentarch);
-        $coursecontext = context_course::instance($this->course1->id);
+        $coursecontext = \context_course::instance($this->course1->id);
         $dg->role_assign($studentrole->id, $this->student1->id, $coursecontext->id);
         $dg->enrol_user($this->student1->id, $this->course1->id, $studentrole->id);
         $dg->role_assign($studentrole->id, $this->student2->id, $coursecontext->id);

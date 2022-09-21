@@ -26,8 +26,6 @@
 namespace report_cmcompetency\task;
 use \report_cmcompetency\api;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Adhoc task handling rating users in course modules.
  *
