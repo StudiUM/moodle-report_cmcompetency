@@ -34,6 +34,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 /**
  * Course module competency report Task tests.
  *
+ * @covers \report_cmcompetency\task
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright 2019 Université de Montréal
