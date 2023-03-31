@@ -10,12 +10,12 @@ Feature: Grade the competencies for an activity
 
   Scenario: Rate the activity 1 (group assignment)
     # For Rebecca
-    Given I follow "Private files"
+    Given I follow "Private files" in the user menu
     And I upload "report/cmcompetency/tests/fixtures/moodlelogo.png" file to "Files" filemanager
     And I click on "Save changes" "button"
     And I am on the "Module 1" "assign activity" page
     When I navigate to "Competencies assessment" in current page administration
-    Then I should see "Module 1" in the "//h2" "xpath_element"
+    Then I should see "Module 1" in the "//h1" "xpath_element"
     And I should see "Rebecca Armenta"
     And I should see "Competencies assessment"
     And I should see "not good" in the "Competency A" "table_row"
@@ -28,7 +28,8 @@ Feature: Grade the competencies for an activity
     And I set the field "Evidence notes" to "This is a note for Rebecca and Pablo"
     And "Apply rating and evidence notes to the entire group" "checkbox" should exist
     And the cmcompetency "Apply rating and evidence notes to the entire group" "checkbox" should be checked
-    And I click on "Insert or edit image" "button" in the "//*[@data-fieldtype='editor']" "xpath_element"
+    And I click on "Insert or edit image" "button" in the "//div[contains(@data-region, 'modal-container')]//*[@data-fieldtype='editor']" "xpath_element"
+    #And I click on "Insert or edit image" "button" in the "[data-fieldtype=editor]" "css_element"
     And I click on "Browse repositories..." "button"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
     And I click on "moodlelogo.png" "link"

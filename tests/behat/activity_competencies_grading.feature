@@ -11,7 +11,7 @@ Feature: Grade the competencies for an activity
     # For Rebecca
     Given I am on the "Module 1" "assign activity" page
     When I navigate to "Competencies assessment" in current page administration
-    Then I should see "Module 1" in the "//h2" "xpath_element"
+    Then I should see "Module 1" in the "//h1" "xpath_element"
     And I should see "Rebecca Armenta"
     And I should see "Competencies assessment"
     And I should see "not good" in the "Competency A" "table_row"
@@ -84,7 +84,7 @@ Feature: Grade the competencies for an activity
     # For Rebecca
     Given I am on the "Module 2" "forum activity" page
     When I navigate to "Competencies assessment" in current page administration
-    Then I should see "Module 2" in the "//h2" "xpath_element"
+    Then I should see "Module 2" in the "//h1" "xpath_element"
     And I should see "Rebecca Armenta"
     And I should see "Competencies assessment"
     And I should see "Not rated" in the "Competency A" "table_row"
