@@ -53,10 +53,11 @@ if ($currentcmid > 0) {
 
 $urlparams = array('id' => $currentcmid, 'courseid' => $courseid);
 $url = new moodle_url('/report/cmcompetency/bulkrating.php', $urlparams);
+$urlindex = new moodle_url('/report/cmcompetency/index.php', $urlparams);
 
 $title = get_string('bulkdefaultrating', 'report_cmcompetency');
 
-$PAGE->navigation->override_active_url($url);
+$PAGE->navigation->override_active_url($urlindex);
 $PAGE->set_url($url);
 $PAGE->set_title($title);
 $coursename = format_string($course->fullname, true, array('context' => $context));
