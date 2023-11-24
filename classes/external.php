@@ -101,7 +101,7 @@ class external extends external_api {
     /**
      * Returns description of data_for_report() result value.
      *
-     * @return \external_description
+     * @return external_single_structure
      */
     public static function data_for_report_returns() {
         return new external_single_structure(array (
@@ -170,7 +170,7 @@ class external extends external_api {
     /**
      * Returns description of add_rating_task() result value.
      *
-     * @return \external_description
+     * @return external_value
      */
     public static function add_rating_task_returns() {
         return new external_value(PARAM_BOOL, 'True if adding was successful');

@@ -93,7 +93,7 @@ class api {
     /**
      * Rate users in course module competencies with default scales values.
      *
-     * @param array $compdata Competencies with scales values associated.
+     * @param object $compdata Competencies with scales values associated.
      */
     public static function rate_users_in_cm_with_defaultvalues($compdata) {
         if (isset($compdata->cms) && $compdata->cms->cmid) {

@@ -26,7 +26,6 @@
 namespace report_cmcompetency\output;
 
 use plugin_renderer_base;
-use renderable;
 
 /**
  * Renderer class for course module competency report.
