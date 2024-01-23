@@ -42,7 +42,7 @@ class api {
     public static function get_list_course_modules_with_competencies($courseid) {
         global $DB;
 
-        $params = array('course' => $courseid);
+        $params = ['course' => $courseid];
         $sql = 'SELECT DISTINCT(cm.id)
                   FROM {course_modules} cm
             RIGHT JOIN {' . \core_competency\course_module_competency::TABLE . '} cmcomp
@@ -81,9 +81,9 @@ class api {
         $customdata['group'] = $group;
 
         $task = new \report_cmcompetency\task\rate_users_in_coursemodules();
-        $task->set_custom_data(array(
-            'cms' => $customdata,
-        ));
+        $task->set_custom_data([
+                    'cms' => $customdata,
+                ]);
         $task->set_userid($USER->id);
 
         // Queue the task for the next run.

@@ -24,7 +24,7 @@
  */
 
 namespace report_cmcompetency\task;
-use \report_cmcompetency\api;
+use report_cmcompetency\api;
 
 /**
  * Adhoc task handling rating users in course modules.
@@ -45,7 +45,7 @@ class rate_users_in_coursemodules extends \core\task\adhoc_task {
 
         // Set the proper user.
         $user = \core_user::get_user($this->get_userid(), '*', MUST_EXIST);
-        cron_setup_user($user);
+        \core\cron::setup_user($user);
 
         // Rate users in course module.
         api::rate_users_in_cm_with_defaultvalues($this->get_custom_data());

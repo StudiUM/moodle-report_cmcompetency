@@ -80,7 +80,7 @@ class user_coursemodule_navigation implements renderable, templatable {
         $cm = get_coursemodule_from_id('', $this->cmid, 0, true, MUST_EXIST);
         $context = context_course::instance($cm->course);
 
-        if (has_any_capability(array('moodle/competency:usercompetencyview', 'moodle/competency:coursecompetencymanage'),
+        if (has_any_capability(['moodle/competency:usercompetencyview', 'moodle/competency:coursecompetencymanage'],
                 $context)) {
             $currentgroup = groups_get_activity_group($cm, true);
             if ($currentgroup !== false) {
@@ -92,7 +92,7 @@ class user_coursemodule_navigation implements renderable, templatable {
             $groupmode = groups_get_activity_groupmode($cm);
 
             $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false);
-            $data->users = array();
+            $data->users = [];
             $users = array_values($users);
             $data->nextuserurl = null;
             $data->previoususerurl = null;
@@ -122,7 +122,7 @@ class user_coursemodule_navigation implements renderable, templatable {
             $data->btnbulkrating = $OUTPUT->single_button($ratingbtnurl,
                     get_string('bulkdefaultrating', 'report_cmcompetency'), 'get');
         } else {
-            $data->users = array();
+            $data->users = [];
             $data->hasusers = false;
             $data->btnbulkrating = '';
         }

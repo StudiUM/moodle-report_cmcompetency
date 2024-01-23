@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$functions = array(
-    'report_cmcompetency_data_for_report' => array(
+$functions = [
+    'report_cmcompetency_data_for_report' => [
         'classname'    => 'report_cmcompetency\external',
         'methodname'   => 'data_for_report',
         'classpath'    => '',
@@ -34,8 +34,8 @@ $functions = array(
         'type'         => 'read',
         'capabilities' => 'moodle/competency:coursecompetencyview',
         'ajax'         => true,
-    ),
-    'report_cmcompetency_add_rating_task' => array(
+    ],
+    'report_cmcompetency_add_rating_task' => [
         'classname'    => 'report_cmcompetency\external',
         'methodname'   => 'add_rating_task',
         'classpath'    => '',
@@ -43,6 +43,6 @@ $functions = array(
         'type'         => 'write',
         'capabilities' => 'moodle/competency:competencygrade',
         'ajax'         => true,
-    )
-);
+    ],
+];
 

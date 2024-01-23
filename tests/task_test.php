@@ -90,8 +90,7 @@ class task_test extends \externallib_advanced_testcase {
         $dg->role_assign($cangraderole, $this->teacher1->id, $c1ctx->id);
 
         $pagegenerator = $this->getDataGenerator()->get_plugin_generator('mod_page');
-        $this->page = $pagegenerator->create_instance(array('course' => $this->course1->id));
-
+        $this->page = $pagegenerator->create_instance(['course' => $this->course1->id]);
         $this->framework = $lpg->create_framework();
 
         // Enrol students in the course.
@@ -148,16 +147,16 @@ class task_test extends \externallib_advanced_testcase {
         $this->setUser($this->teacher1);
 
         // Create groups of students.
-        $groupingdata = array();
+        $groupingdata = [];
         $groupingdata['courseid'] = $this->course1->id;
         $groupingdata['name'] = 'Group assignment grouping';
 
         $grouping = self::getDataGenerator()->create_grouping($groupingdata);
 
-        $group1data = array();
+        $group1data = [];
         $group1data['courseid'] = $this->course1->id;
         $group1data['name'] = 'Team 1';
-        $group2data = array();
+        $group2data = [];
         $group2data['courseid'] = $this->course1->id;
         $group2data['name'] = 'Team 2';
 
@@ -216,36 +215,35 @@ class task_test extends \externallib_advanced_testcase {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Create scales.
-        $scale1 = $dg->create_scale(array('scale' => 'B,C,D', 'name' => 'scale 1'));
-        $scaleconfig = array(array('scaleid' => $scale1->id));
-        $scaleconfig[] = array('name' => 'B', 'id' => 1, 'scaledefault' => 1, 'proficient' => 0);
-        $scaleconfig[] = array('name' => 'C', 'id' => 2, 'scaledefault' => 0, 'proficient' => 1);
-        $scaleconfig[] = array('name' => 'D', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1);
+        $scale1        = $dg->create_scale(['scale' => 'B,C,D', 'name' => 'scale 1']);
+        $scaleconfig   = [['scaleid' => $scale1->id]];
+        $scaleconfig[] = ['name' => 'B', 'id' => 1, 'scaledefault' => 1, 'proficient' => 0];
+        $scaleconfig[] = ['name' => 'C', 'id' => 2, 'scaledefault' => 0, 'proficient' => 1];
+        $scaleconfig[] = ['name' => 'D', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1];
 
-        $scale2 = $dg->create_scale(array('scale' => 'E,F,G,H', 'name' => 'scale 2'));
-        $c2scaleconfig = array(array('scaleid' => $scale2->id));
-        $c2scaleconfig[] = array('name' => 'E', 'id' => 1, 'scaledefault' => 0, 'proficient' => 0);
-        $c2scaleconfig[] = array('name' => 'F', 'id' => 2, 'scaledefault' => 0, 'proficient' => 0);
-        $c2scaleconfig[] = array('name' => 'G', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1);
-        $c2scaleconfig[] = array('name' => 'H', 'id' => 4, 'scaledefault' => 1, 'proficient' => 1);
+        $scale2          = $dg->create_scale(['scale' => 'E,F,G,H', 'name' => 'scale 2']);
+        $c2scaleconfig   = [['scaleid' => $scale2->id]];
+        $c2scaleconfig[] = ['name' => 'E', 'id' => 1, 'scaledefault' => 0, 'proficient' => 0];
+        $c2scaleconfig[] = ['name' => 'F', 'id' => 2, 'scaledefault' => 0, 'proficient' => 0];
+        $c2scaleconfig[] = ['name' => 'G', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1];
+        $c2scaleconfig[] = ['name' => 'H', 'id' => 4, 'scaledefault' => 1, 'proficient' => 1];
 
-        $framework = $cpg->create_framework(array(
-            'scaleid' => $scale1->id,
-            'scaleconfiguration' => $scaleconfig
-        ));
-        $c1 = $cpg->create_competency(array(
+        $framework = $cpg->create_framework([
+            'scaleid'            => $scale1->id,
+            'scaleconfiguration' => $scaleconfig,
+        ]);
+        $c1 = $cpg->create_competency([
                     'competencyframeworkid' => $framework->get('id'),
-                    'shortname' => 'c1',
-                    'scaleid' => $scale2->id,
-                    'scaleconfiguration' => $c2scaleconfig));
-        $c2 = $cpg->create_competency(array('competencyframeworkid' => $framework->get('id'), 'shortname' => 'c2'));
+                    'shortname'             => 'c1',
+                    'scaleid'               => $scale2->id,
+                    'scaleconfiguration'    => $c2scaleconfig, ]);
+        $c2 = $cpg->create_competency(['competencyframeworkid' => $framework->get('id'), 'shortname' => 'c2']);
         // Create some course competencies.
-        $cpg->create_course_competency(array('competencyid' => $c1->get('id'), 'courseid' => $this->course1->id));
-        $cpg->create_course_competency(array('competencyid' => $c2->get('id'), 'courseid' => $this->course1->id));
-
+        $cpg->create_course_competency(['competencyid' => $c1->get('id'), 'courseid' => $this->course1->id]);
+        $cpg->create_course_competency(['competencyid' => $c2->get('id'), 'courseid' => $this->course1->id]);
         // Link competencies to course modules.
-        $cpg->create_course_module_competency(array('competencyid' => $c1->get('id'), 'cmid' => $cm->id));
-        $cpg->create_course_module_competency(array('competencyid' => $c2->get('id'), 'cmid' => $cm->id));
+        $cpg->create_course_module_competency(['competencyid' => $c1->get('id'), 'cmid' => $cm->id]);
+        $cpg->create_course_module_competency(['competencyid' => $c2->get('id'), 'cmid' => $cm->id]);
 
         $datascales = [];
         $datascales = [['compid' => $c1->get('id'), 'value' => 4], ['compid' => $c2->get('id'), 'value' => 2]];
@@ -284,16 +282,16 @@ class task_test extends \externallib_advanced_testcase {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Create groups of students.
-        $groupingdata = array();
+        $groupingdata = [];
         $groupingdata['courseid'] = $this->course1->id;
         $groupingdata['name'] = 'Group assignment grouping';
 
         $grouping = self::getDataGenerator()->create_grouping($groupingdata);
 
-        $group1data = array();
+        $group1data = [];
         $group1data['courseid'] = $this->course1->id;
         $group1data['name'] = 'Team 1';
-        $group2data = array();
+        $group2data = [];
         $group2data['courseid'] = $this->course1->id;
         $group2data['name'] = 'Team 2';
 
@@ -308,36 +306,36 @@ class task_test extends \externallib_advanced_testcase {
         groups_add_member($group2->id, $this->student3->id);
 
         // Create scales.
-        $scale1 = $dg->create_scale(array('scale' => 'B,C,D', 'name' => 'scale 1'));
-        $scaleconfig = array(array('scaleid' => $scale1->id));
-        $scaleconfig[] = array('name' => 'B', 'id' => 1, 'scaledefault' => 1, 'proficient' => 0);
-        $scaleconfig[] = array('name' => 'C', 'id' => 2, 'scaledefault' => 0, 'proficient' => 1);
-        $scaleconfig[] = array('name' => 'D', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1);
+        $scale1        = $dg->create_scale(['scale' => 'B,C,D', 'name' => 'scale 1']);
+        $scaleconfig   = [['scaleid' => $scale1->id]];
+        $scaleconfig[] = ['name' => 'B', 'id' => 1, 'scaledefault' => 1, 'proficient' => 0];
+        $scaleconfig[] = ['name' => 'C', 'id' => 2, 'scaledefault' => 0, 'proficient' => 1];
+        $scaleconfig[] = ['name' => 'D', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1];
 
-        $scale2 = $dg->create_scale(array('scale' => 'E,F,G,H', 'name' => 'scale 2'));
-        $c2scaleconfig = array(array('scaleid' => $scale2->id));
-        $c2scaleconfig[] = array('name' => 'E', 'id' => 1, 'scaledefault' => 0, 'proficient' => 0);
-        $c2scaleconfig[] = array('name' => 'F', 'id' => 2, 'scaledefault' => 0, 'proficient' => 0);
-        $c2scaleconfig[] = array('name' => 'G', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1);
-        $c2scaleconfig[] = array('name' => 'H', 'id' => 4, 'scaledefault' => 1, 'proficient' => 1);
+        $scale2          = $dg->create_scale(['scale' => 'E,F,G,H', 'name' => 'scale 2']);
+        $c2scaleconfig   = [['scaleid' => $scale2->id]];
+        $c2scaleconfig[] = ['name' => 'E', 'id' => 1, 'scaledefault' => 0, 'proficient' => 0];
+        $c2scaleconfig[] = ['name' => 'F', 'id' => 2, 'scaledefault' => 0, 'proficient' => 0];
+        $c2scaleconfig[] = ['name' => 'G', 'id' => 3, 'scaledefault' => 0, 'proficient' => 1];
+        $c2scaleconfig[] = ['name' => 'H', 'id' => 4, 'scaledefault' => 1, 'proficient' => 1];
 
-        $framework = $cpg->create_framework(array(
-            'scaleid' => $scale1->id,
-            'scaleconfiguration' => $scaleconfig
-        ));
-        $c1 = $cpg->create_competency(array(
+        $framework = $cpg->create_framework([
+            'scaleid'            => $scale1->id,
+            'scaleconfiguration' => $scaleconfig,
+        ]);
+        $c1 = $cpg->create_competency([
                     'competencyframeworkid' => $framework->get('id'),
-                    'shortname' => 'c1',
-                    'scaleid' => $scale2->id,
-                    'scaleconfiguration' => $c2scaleconfig));
-        $c2 = $cpg->create_competency(array('competencyframeworkid' => $framework->get('id'), 'shortname' => 'c2'));
+                    'shortname'             => 'c1',
+                    'scaleid'               => $scale2->id,
+                    'scaleconfiguration'    => $c2scaleconfig, ]);
+        $c2 = $cpg->create_competency(['competencyframeworkid' => $framework->get('id'), 'shortname' => 'c2']);
         // Create some course competencies.
-        $cpg->create_course_competency(array('competencyid' => $c1->get('id'), 'courseid' => $this->course1->id));
-        $cpg->create_course_competency(array('competencyid' => $c2->get('id'), 'courseid' => $this->course1->id));
+        $cpg->create_course_competency(['competencyid' => $c1->get('id'), 'courseid' => $this->course1->id]);
+        $cpg->create_course_competency(['competencyid' => $c2->get('id'), 'courseid' => $this->course1->id]);
 
         // Link competencies to course modules.
-        $cpg->create_course_module_competency(array('competencyid' => $c1->get('id'), 'cmid' => $cm->id));
-        $cpg->create_course_module_competency(array('competencyid' => $c2->get('id'), 'cmid' => $cm->id));
+        $cpg->create_course_module_competency(['competencyid' => $c1->get('id'), 'cmid' => $cm->id]);
+        $cpg->create_course_module_competency(['competencyid' => $c2->get('id'), 'cmid' => $cm->id]);
 
         $datascales = [];
         $datascales = [['compid' => $c1->get('id'), 'value' => 4], ['compid' => $c2->get('id'), 'value' => 2]];

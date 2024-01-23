@@ -23,16 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace report_cmcompetency;
-defined('MOODLE_INTERNAL') || die();
-
-require_once("$CFG->libdir/externallib.php");
 
 use context_module;
-use external_api;
-use external_function_parameters;
-use external_multiple_structure;
-use external_single_structure;
-use external_value;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
 use tool_cmcompetency\external\user_competency_cm_exporter;
 use tool_lp\external\competency_summary_exporter;
 
@@ -62,10 +59,10 @@ class external extends external_api {
             'The user id',
             VALUE_REQUIRED
         );
-        $params = array(
+        $params = [
             'cmid' => $cmid,
-            'userid' => $userid
-        );
+            'userid' => $userid,
+        ];
         return new external_function_parameters($params);
     }
 
@@ -80,10 +77,10 @@ class external extends external_api {
         global $PAGE;
         $params = self::validate_parameters(
             self::data_for_report_parameters(),
-            array(
+            [
                 'cmid' => $cmid,
-                'userid' => $userid
-            )
+                'userid' => $userid,
+            ]
         );
         $context = context_module::instance($params['cmid']);
         self::validate_context($context);
@@ -104,16 +101,16 @@ class external extends external_api {
      * @return external_single_structure
      */
     public static function data_for_report_returns() {
-        return new external_single_structure(array (
+        return new external_single_structure([
             'userid' => new external_value(PARAM_INT, 'User id'),
             'cmid' => new external_value(PARAM_INT, 'Course module id'),
             'usercompetencies' => new external_multiple_structure(
-                new external_single_structure(array(
+                new external_single_structure([
                     'usercompetencycoursemodule' => user_competency_cm_exporter::get_read_structure(),
-                    'competency' => competency_summary_exporter::get_read_structure()
-                ))
-            )
-        ));
+                    'competency' => competency_summary_exporter::get_read_structure(),
+                ])
+            ),
+        ]);
     }
 
     /**
@@ -138,11 +135,11 @@ class external extends external_api {
             VALUE_DEFAULT,
             0
         );
-        $params = array(
+        $params = [
             'cmid' => $cmid,
             'defaultscalesvalues' => $defaultscalesvalues,
-            'group' => $group
-        );
+            'group' => $group,
+        ];
         return new external_function_parameters($params);
     }
 
@@ -157,11 +154,11 @@ class external extends external_api {
     public static function add_rating_task($cmid, $defaultscalesvalues, $group = 0) {
         $params = self::validate_parameters(
             self::add_rating_task_parameters(),
-            array(
+            [
                 'cmid' => $cmid,
                 'defaultscalesvalues' => $defaultscalesvalues,
-                'group' => $group
-            )
+                'group' => $group,
+            ]
         );
         api::add_rating_task($params['cmid'], json_decode($params['defaultscalesvalues']), $params['group']);
         return true;

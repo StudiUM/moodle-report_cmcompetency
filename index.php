@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../../config.php');
 $cmid = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('', $cmid, 0, true, MUST_EXIST);
 
-$params = array('id' => $cm->course);
+$params = ['id' => $cm->course];
 $course = $DB->get_record('course', $params, '*', MUST_EXIST);
 require_login($course);
 $context = context_course::instance($course->id);
@@ -54,7 +54,7 @@ if (empty($currentuser)) {
     }
 }
 
-$urlparams = array('id' => $cmid);
+$urlparams = ['id' => $cmid];
 $navurl = new moodle_url('/report/cmcompetency/index.php', $urlparams);
 $urlparams['user'] = $currentuser;
 $url = new moodle_url('/report/cmcompetency/index.php', $urlparams);
@@ -65,7 +65,7 @@ $PAGE->set_cm($cm);
 $PAGE->navigation->override_active_url($navurl);
 $PAGE->set_url($url);
 $PAGE->set_title($title);
-$coursename = format_string($course->fullname, true, array('context' => $context));
+$coursename = format_string($course->fullname, true, ['context' => $context]);
 $PAGE->set_heading($coursename);
 $output = $PAGE->get_renderer('report_cmcompetency');
 echo $output->header();
@@ -79,11 +79,11 @@ echo $output->render($nav);
 if ($currentuser > 0) {
     $user = core_user::get_user($currentuser);
     $usercontext = context_user::instance($currentuser);
-    $userheading = array(
-        'heading' => fullname($user),
-        'user' => $user,
-        'usercontext' => $usercontext
-    );
+    $userheading = [
+            'heading'     => fullname($user),
+            'user'        => $user,
+            'usercontext' => $usercontext,
+        ];
     echo $output->context_header($userheading, 3);
 }
 

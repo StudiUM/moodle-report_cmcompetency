@@ -76,7 +76,7 @@ class report implements renderable, templatable {
         $contextcm = context_module::instance($this->cmid);
         $data->contextid = $contextcm->id;
 
-        $data->usercompetencies = array();
+        $data->usercompetencies = [];
         $cmcompetencies = core_competency_api::list_course_module_competencies($this->cmid);
         $usercompetencycoursesmodules = tool_cmcompetency_api::list_user_competencies_in_coursemodule($this->cmid, $user->id);
 
@@ -97,16 +97,16 @@ class report implements renderable, templatable {
             $framework = $helper->get_framework_from_competency($competency);
             $scale = $helper->get_scale_from_competency($competency);
 
-            $exporter = new user_competency_cm_exporter($usercompetencycoursemodule, array('scale' => $scale));
+            $exporter = new user_competency_cm_exporter($usercompetencycoursemodule, ['scale' => $scale]);
             $record = $exporter->export($output);
             $onerow->usercompetencycoursemodule = $record;
-            $exporter = new competency_summary_exporter(null, array(
+            $exporter = new competency_summary_exporter(null, [
                 'competency' => $competency,
                 'framework' => $framework,
                 'context' => $framework->get_context(),
-                'relatedcompetencies' => array(),
-                'linkedcourses' => array()
-            ));
+                'relatedcompetencies' => [],
+                'linkedcourses' => [],
+            ]);
             $onerow->competency = $exporter->export($output);
             array_push($data->usercompetencies, $onerow);
         }
