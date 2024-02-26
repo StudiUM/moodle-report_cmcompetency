@@ -29,8 +29,9 @@ define(['jquery',
         'core/modal_events',
         'tool_lp/event_base',
         'core/str',
-        'core/fragment'
-    ], function($, Notification, Templates, ModalFactory, ModalEvents, EventBase, Str, Fragment) {
+        'core/fragment',
+        'core_form/events'
+    ], function($, Notification, Templates, ModalFactory, ModalEvents, EventBase, Str, Fragment, FormEvents) {
 
         /**
          * Grade Course module dialogue class.
@@ -94,6 +95,8 @@ define(['jquery',
                     'rating': val,
                     'applygroup': valgroup
                 });
+                // Catch the submit event to remove autosave session
+                FormEvents.notifyFormSubmittedByJavascript(this.modal.getRoot().find('form')[0]);
             }.bind(this));
         };
 
