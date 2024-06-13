@@ -28,7 +28,7 @@ Feature: Grade the competencies for an activity
     And I set the field "Evidence notes" to "This is a note for Rebecca and Pablo"
     And "Apply rating and evidence notes to the entire group" "checkbox" should exist
     And the cmcompetency "Apply rating and evidence notes to the entire group" "checkbox" should be checked
-    And I click on "Insert or edit image" "button" in the "//div[contains(@data-region, 'modal-container')]//*[@data-fieldtype='editor']" "xpath_element"
+    And I click on "Image" "button" in the "//div[contains(@data-region, 'modal-container')]//*[@data-fieldtype='editor']" "xpath_element"
     #And I click on "Insert or edit image" "button" in the "[data-fieldtype=editor]" "css_element"
     And I click on "Browse repositories..." "button"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"

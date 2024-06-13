@@ -76,11 +76,11 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
         $baseurl = new moodle_url('/report/cmcompetency/bulkrating.php');
         $cmiddefault = ($cmwithnocomp) ? $currentcmid : null;
         $nav = new \tool_cmcompetency\output\coursemodule_navigation($cm, $course, $baseurl, $cmiddefault);
-        echo $outputnav->render($nav);
         if ($cmwithnocomp) {
             echo $output->container('', 'clearfix');
             echo $OUTPUT->notification(get_string('nocompetenciesincm', 'tool_cmcompetency'),
                     \core\output\notification::NOTIFY_INFO);
+            echo $outputnav->render($nav);
         } else {
             // Group navigation if the activity has separated groups.
             $currentgroup = groups_get_activity_group($cm, true);
@@ -89,13 +89,14 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
                 echo $output->container($groupselect, 'pull-left border p-2 mb-2');
             }
             echo $output->container('', 'clearfix');
-            echo $OUTPUT->notification(get_string('noticebulkrating', 'report_cmcompetency'),
-                \core\output\notification::NOTIFY_INFO);
             $exist = \report_cmcompetency\api::rating_task_exist($currentcmid, $currentgroup);
             if ($exist) {
                 echo $OUTPUT->notification(get_string('taskratingrunning', 'report_cmcompetency'),
                     \core\output\notification::NOTIFY_WARNING);
             }
+            echo $OUTPUT->notification(get_string('noticebulkrating', 'report_cmcompetency'),
+                \core\output\notification::NOTIFY_INFO);
+            echo $outputnav->render($nav);
             $report = new \report_cmcompetency\output\default_values_ratings($course->id, $currentcmid, $currentgroup);
             echo $output->render($report);
         }
