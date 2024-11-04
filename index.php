@@ -46,7 +46,7 @@ if (empty($currentuser)) {
         $currentuser = array_pop($gradable)->id;
     }
 } else {
-    $gradable = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false);
+    $gradable = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false, $currentuser);
     if (count($gradable) == 0) {
         $currentuser = 0;
     } else if (!in_array($currentuser, array_keys($gradable))) {
