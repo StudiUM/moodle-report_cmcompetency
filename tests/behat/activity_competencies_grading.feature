@@ -35,7 +35,6 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "very good" in the "Competency A" "table_row"
-    
     # For Pablo
     And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list
@@ -80,7 +79,7 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
 
- Scenario: Rate the activity 1 (forum - no groups)
+  Scenario: Rate the activity 1 (forum - no groups)
     # For Rebecca
     Given I am on the "Module 2" "forum activity" page
     When I navigate to "Competencies assessment" in current page administration
@@ -107,7 +106,6 @@ Feature: Grade the competencies for an activity
     And I should see "very good" in the "//dl/dt[text()='Evidence']/following-sibling::dd[1]/div[1]" "xpath_element"
     And I click on "Close" "button" in the "User competency summary" "dialogue"
     And I should see "very good" in the "Competency A" "table_row"
-    
     # For Pablo
     And I open the autocomplete suggestions list
     And I click on "Pablo Menendez" item in the autocomplete list

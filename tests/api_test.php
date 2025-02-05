@@ -40,7 +40,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class api_test extends \externallib_advanced_testcase {
+final class api_test extends \externallib_advanced_testcase {
 
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
@@ -64,6 +64,7 @@ class api_test extends \externallib_advanced_testcase {
     protected $framework = null;
 
     protected function setUp(): void {
+        parent::setUp();
         $this->resetAfterTest(true);
         $dg = $this->getDataGenerator();
         $lpg = $dg->get_plugin_generator('core_competency');
@@ -109,7 +110,7 @@ class api_test extends \externallib_advanced_testcase {
     /*
      * Test add_rating_task when no separated groups in the activity.
      */
-    public function test_add_rating_task_without_group() {
+    public function test_add_rating_task_without_group(): void {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Set current user to teacher.
@@ -140,7 +141,7 @@ class api_test extends \externallib_advanced_testcase {
     /*
      * Test add_rating_task for separated groups.
      */
-    public function test_add_rating_task_with_group() {
+    public function test_add_rating_task_with_group(): void {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Create groups of students.
@@ -210,7 +211,7 @@ class api_test extends \externallib_advanced_testcase {
     /*
      * Test rate_users_in_cm_with_defaultvalues without groups.
      */
-    public function test_rate_users_in_cm_with_defaultvalues_without_group() {
+    public function test_rate_users_in_cm_with_defaultvalues_without_group(): void {
         $dg = $this->getDataGenerator();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
         $cm = get_coursemodule_from_instance('page', $this->page->id);
@@ -291,7 +292,7 @@ class api_test extends \externallib_advanced_testcase {
     /*
      * Test rate_users_in_cm_with_defaultvalues with separated groups.
      */
-    public function test_rate_users_in_cm_with_defaultvalues_with_group() {
+    public function test_rate_users_in_cm_with_defaultvalues_with_group(): void {
         $dg = $this->getDataGenerator();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
 
@@ -400,7 +401,7 @@ class api_test extends \externallib_advanced_testcase {
     /*
      * Test get_list_course_modules_with_competencies.
      */
-    public function test_get_list_course_modules_with_competencies() {
+    public function test_get_list_course_modules_with_competencies(): void {
         $dg = $this->getDataGenerator();
         $course2 = $dg->create_course();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');

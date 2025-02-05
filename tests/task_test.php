@@ -40,7 +40,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class task_test extends \externallib_advanced_testcase {
+final class task_test extends \externallib_advanced_testcase {
 
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
@@ -64,6 +64,7 @@ class task_test extends \externallib_advanced_testcase {
     protected $framework = null;
 
     protected function setUp(): void {
+        parent::setUp();
         $this->resetAfterTest(true);
         $dg = $this->getDataGenerator();
         $lpg = $dg->get_plugin_generator('core_competency');
@@ -108,7 +109,7 @@ class task_test extends \externallib_advanced_testcase {
     /*
      * Test add task without group.
      */
-    public function test_add_rate_users_in_cm_task_without_group() {
+    public function test_add_rate_users_in_cm_task_without_group(): void {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Set current user to teacher.
@@ -140,7 +141,7 @@ class task_test extends \externallib_advanced_testcase {
     /*
      * Test add task with groups.
      */
-    public function test_add_rate_users_in_cm_task_with_group() {
+    public function test_add_rate_users_in_cm_task_with_group(): void {
         $cm = get_coursemodule_from_instance('page', $this->page->id);
 
         // Set current user to teacher.
@@ -209,7 +210,7 @@ class task_test extends \externallib_advanced_testcase {
     /*
      * Test execute_rate_users_in_cm_task without group.
      */
-    public function test_execute_rate_users_in_cm_task_without_group() {
+    public function test_execute_rate_users_in_cm_task_without_group(): void {
         $dg = $this->getDataGenerator();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
         $cm = get_coursemodule_from_instance('page', $this->page->id);
@@ -276,7 +277,7 @@ class task_test extends \externallib_advanced_testcase {
     /*
      * Test execute_rate_users_in_cm_task with group.
      */
-    public function test_execute_rate_users_in_cm_task_with_group() {
+    public function test_execute_rate_users_in_cm_task_with_group(): void {
         $dg = $this->getDataGenerator();
         $cpg = $this->getDataGenerator()->get_plugin_generator('core_competency');
         $cm = get_coursemodule_from_instance('page', $this->page->id);
