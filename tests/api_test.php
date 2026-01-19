@@ -34,12 +34,12 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 /**
  * External course module competency report API tests.
  *
- * @covers \report_cmcompetency\api
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\report_cmcompetency\api::class)]
 final class api_test extends \externallib_advanced_testcase {
 
     /** @var stdClass $student1 User for generating plans, student of course1. */
