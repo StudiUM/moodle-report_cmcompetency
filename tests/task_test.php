@@ -34,14 +34,13 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 /**
  * Course module competency report Task tests.
  *
- * @covers \report_cmcompetency\task
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\report_cmcompetency\task\rate_users_in_coursemodules::class)]
 final class task_test extends \externallib_advanced_testcase {
-
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
 

@@ -26,7 +26,7 @@
 
 require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
 
-use Behat\Mink\Exception\ExpectationException as ExpectationException;
+use Behat\Mink\Exception\ExpectationException;
 use tool_cmcompetency\api;
 
 /**
@@ -46,7 +46,7 @@ class behat_report_cmcompetency extends behat_base {
      */
     public function richtext_editor_is_enabled() {
         if (!api::show_richtext_editor()) {
-            throw new \Moodle\BehatExtension\Exception\SkippedException;
+            throw new \Moodle\BehatExtension\Exception\SkippedException();
         }
     }
     /**
@@ -56,7 +56,7 @@ class behat_report_cmcompetency extends behat_base {
      */
     public function richtext_editor_is_not_enabled() {
         if (api::show_richtext_editor()) {
-            throw new \Moodle\BehatExtension\Exception\SkippedException;
+            throw new \Moodle\BehatExtension\Exception\SkippedException();
         }
     }
 

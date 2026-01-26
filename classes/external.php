@@ -42,7 +42,6 @@ use tool_lp\external\competency_summary_exporter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class external extends external_api {
-
     /**
      * Returns description of data_for_report() parameters.
      *
@@ -172,5 +171,4 @@ class external extends external_api {
     public static function add_rating_task_returns() {
         return new external_value(PARAM_BOOL, 'True if adding was successful');
     }
-
 }

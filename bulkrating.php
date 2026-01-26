@@ -68,8 +68,10 @@ $outputnav = $PAGE->get_renderer('tool_cmcompetency');
 echo $output->header();
 if (has_capability('moodle/competency:competencygrade', $context)) {
     if ($currentcmid > 0) {
-        $image = html_writer::empty_tag('img',
-                        ['src' => $modinfo->cms[$currentcmid]->get_icon_url()->out(), 'class' => 'cm-competency-img']);
+        $image = html_writer::empty_tag(
+            'img',
+            ['src' => $modinfo->cms[$currentcmid]->get_icon_url()->out(), 'class' => 'cm-competency-img']
+        );
 
         echo $output->heading($image . format_string($cm->name), 2);
         echo $output->heading($title, 3);
@@ -78,8 +80,10 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
         $nav = new \tool_cmcompetency\output\coursemodule_navigation($cm, $course, $baseurl, $cmiddefault);
         if ($cmwithnocomp) {
             echo $output->container('', 'clearfix');
-            echo $OUTPUT->notification(get_string('nocompetenciesincm', 'tool_cmcompetency'),
-                    \core\output\notification::NOTIFY_INFO);
+            echo $OUTPUT->notification(
+                get_string('nocompetenciesincm', 'tool_cmcompetency'),
+                \core\output\notification::NOTIFY_INFO
+            );
             echo $outputnav->render($nav);
         } else {
             // Group navigation if the activity has separated groups.
@@ -91,11 +95,15 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
             echo $output->container('', 'clearfix');
             $exist = \report_cmcompetency\api::rating_task_exist($currentcmid, $currentgroup);
             if ($exist) {
-                echo $OUTPUT->notification(get_string('taskratingrunning', 'report_cmcompetency'),
-                    \core\output\notification::NOTIFY_WARNING);
+                echo $OUTPUT->notification(
+                    get_string('taskratingrunning', 'report_cmcompetency'),
+                    \core\output\notification::NOTIFY_WARNING
+                );
             }
-            echo $OUTPUT->notification(get_string('noticebulkrating', 'report_cmcompetency'),
-                \core\output\notification::NOTIFY_INFO);
+            echo $OUTPUT->notification(
+                get_string('noticebulkrating', 'report_cmcompetency'),
+                \core\output\notification::NOTIFY_INFO
+            );
             echo $outputnav->render($nav);
             $report = new \report_cmcompetency\output\default_values_ratings($course->id, $currentcmid, $currentgroup);
             echo $output->render($report);
@@ -103,14 +111,18 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
     } else {
         echo $output->heading($title, 3);
         echo $output->container('', 'clearfix');
-        echo $OUTPUT->notification(get_string('nocompetenciesincms', 'tool_cmcompetency'),
-                \core\output\notification::NOTIFY_INFO);
+        echo $OUTPUT->notification(
+            get_string('nocompetenciesincms', 'tool_cmcompetency'),
+            \core\output\notification::NOTIFY_INFO
+        );
     }
 } else {
     echo $output->heading($title, 3);
     echo $output->container('', 'clearfix margin-notification');
-    echo $OUTPUT->notification(get_string('cannotaccessreportpage', 'tool_cmcompetency'),
-                \core\output\notification::NOTIFY_ERROR);
+    echo $OUTPUT->notification(
+        get_string('cannotaccessreportpage', 'tool_cmcompetency'),
+        \core\output\notification::NOTIFY_ERROR
+    );
 }
 
 echo $OUTPUT->footer();
