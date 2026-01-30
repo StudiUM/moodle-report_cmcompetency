@@ -105,7 +105,7 @@ final class task_test extends \externallib_advanced_testcase {
         $dg->enrol_user($this->student3->id, $this->course1->id, $studentrole->id);
     }
 
-    /*
+    /**
      * Test add task without group.
      */
     public function test_add_rate_users_in_cm_task_without_group(): void {
@@ -137,7 +137,7 @@ final class task_test extends \externallib_advanced_testcase {
         }
     }
 
-    /*
+    /**
      * Test add task with groups.
      */
     public function test_add_rate_users_in_cm_task_with_group(): void {
@@ -206,7 +206,7 @@ final class task_test extends \externallib_advanced_testcase {
         $this->assertTrue(\report_cmcompetency\api::rating_task_exist($cm->id, $group1->id));
     }
 
-    /*
+    /**
      * Test execute_rate_users_in_cm_task without group.
      */
     public function test_execute_rate_users_in_cm_task_without_group(): void {
@@ -273,7 +273,7 @@ final class task_test extends \externallib_advanced_testcase {
         $this->assertEquals(2, $u3c2->get('grade'));
     }
 
-    /*
+    /**
      * Test execute_rate_users_in_cm_task with group.
      */
     public function test_execute_rate_users_in_cm_task_with_group(): void {

@@ -106,7 +106,7 @@ final class api_test extends \externallib_advanced_testcase {
         $dg->enrol_user($this->student3->id, $this->course1->id, $studentrole->id);
     }
 
-    /*
+    /**
      * Test add_rating_task when no separated groups in the activity.
      */
     public function test_add_rating_task_without_group(): void {
@@ -137,7 +137,7 @@ final class api_test extends \externallib_advanced_testcase {
         }
     }
 
-    /*
+    /**
      * Test add_rating_task for separated groups.
      */
     public function test_add_rating_task_with_group(): void {
@@ -207,7 +207,7 @@ final class api_test extends \externallib_advanced_testcase {
         $this->assertTrue(\report_cmcompetency\api::rating_task_exist($cm->id, $group1->id));
     }
 
-    /*
+    /**
      * Test rate_users_in_cm_with_defaultvalues without groups.
      */
     public function test_rate_users_in_cm_with_defaultvalues_without_group(): void {
@@ -288,7 +288,7 @@ final class api_test extends \externallib_advanced_testcase {
         $this->assertEquals(2, $u3c2->get('grade'));
     }
 
-    /*
+    /**
      * Test rate_users_in_cm_with_defaultvalues with separated groups.
      */
     public function test_rate_users_in_cm_with_defaultvalues_with_group(): void {
@@ -397,7 +397,7 @@ final class api_test extends \externallib_advanced_testcase {
         $this->assertEquals(2, $u3c2->get('grade'));
     }
 
-    /*
+    /**
      * Test get_list_course_modules_with_competencies.
      */
     public function test_get_list_course_modules_with_competencies(): void {

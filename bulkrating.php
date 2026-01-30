@@ -26,7 +26,7 @@
 require_once(__DIR__ . '/../../config.php');
 global $USER;
 
-$currentcmid = optional_param('id', null, PARAM_INT);
+$currentcmid = optional_param('id', 0, PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 $context = context_course::instance($course->id);

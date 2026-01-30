@@ -32,7 +32,7 @@ $params = ['id' => $cm->course];
 $course = $DB->get_record('course', $params, '*', MUST_EXIST);
 require_login($course);
 $context = context_course::instance($course->id);
-$currentuser = optional_param('user', null, PARAM_INT);
+$currentuser = optional_param('user', 0, PARAM_INT);
 
 // Fetch current active group.
 groups_get_activity_groupmode($cm);
