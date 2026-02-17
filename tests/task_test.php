@@ -34,14 +34,13 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 /**
  * Course module competency report Task tests.
  *
- * @covers \report_cmcompetency\task
  * @package   report_cmcompetency
  * @author    Issam Taboubi <issam.taboubi@umontreal.ca>
  * @copyright 2019 Université de Montréal
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\report_cmcompetency\task\rate_users_in_coursemodules::class)]
 final class task_test extends \externallib_advanced_testcase {
-
     /** @var stdClass $student1 User for generating plans, student of course1. */
     protected $student1 = null;
 
@@ -106,7 +105,7 @@ final class task_test extends \externallib_advanced_testcase {
         $dg->enrol_user($this->student3->id, $this->course1->id, $studentrole->id);
     }
 
-    /*
+    /**
      * Test add task without group.
      */
     public function test_add_rate_users_in_cm_task_without_group(): void {
@@ -138,7 +137,7 @@ final class task_test extends \externallib_advanced_testcase {
         }
     }
 
-    /*
+    /**
      * Test add task with groups.
      */
     public function test_add_rate_users_in_cm_task_with_group(): void {
@@ -207,7 +206,7 @@ final class task_test extends \externallib_advanced_testcase {
         $this->assertTrue(\report_cmcompetency\api::rating_task_exist($cm->id, $group1->id));
     }
 
-    /*
+    /**
      * Test execute_rate_users_in_cm_task without group.
      */
     public function test_execute_rate_users_in_cm_task_without_group(): void {
@@ -274,7 +273,7 @@ final class task_test extends \externallib_advanced_testcase {
         $this->assertEquals(2, $u3c2->get('grade'));
     }
 
-    /*
+    /**
      * Test execute_rate_users_in_cm_task with group.
      */
     public function test_execute_rate_users_in_cm_task_with_group(): void {
