@@ -44,7 +44,6 @@ use tool_lp\external\competency_summary_exporter;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report implements renderable, templatable {
-
     /** @var int $cmid */
     protected $cmid;
     /** @var int $userid */

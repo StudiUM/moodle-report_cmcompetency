@@ -32,7 +32,6 @@ namespace report_cmcompetency;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class api {
-
     /**
      * List course modules having at least one competency.
      *
@@ -135,8 +134,11 @@ class api {
             if ($cmdata->cms && $cmdata->cms->cmid == $cmid) {
                 // There is already a task for this specific group, or for the whole course,
                 // or for a group when trying to make one for the whole course.
-                if ($cmdata->cms->group == $group || ($group == 0 && $cmdata->cms->group != 0) ||
-                        ($group != 0 && $cmdata->cms->group == 0)) {
+                if (
+                    $cmdata->cms->group == $group ||
+                    ($group == 0 && $cmdata->cms->group != 0) ||
+                    ($group != 0 && $cmdata->cms->group == 0)
+                ) {
                     $exist = true;
                     break;
                 }

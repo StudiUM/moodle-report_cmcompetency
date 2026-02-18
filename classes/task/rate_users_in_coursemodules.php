@@ -35,13 +35,12 @@ use report_cmcompetency\api;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class rate_users_in_coursemodules extends \core\task\adhoc_task {
-
     /**
      * Run the rating task.
      */
     public function execute() {
         global $CFG;
-        require_once($CFG->dirroot. '/course/lib.php');
+        require_once($CFG->dirroot . '/course/lib.php');
 
         // Set the proper user.
         $user = \core_user::get_user($this->get_userid(), '*', MUST_EXIST);

@@ -40,7 +40,6 @@ use stdClass;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class user_coursemodule_navigation implements renderable, templatable {
-
     /** @var int $userid */
     protected $userid;
 
@@ -80,8 +79,7 @@ class user_coursemodule_navigation implements renderable, templatable {
         $cm = get_coursemodule_from_id('', $this->cmid, 0, true, MUST_EXIST);
         $context = context_course::instance($cm->course);
 
-        if (has_any_capability(['moodle/competency:usercompetencyview', 'moodle/competency:coursecompetencymanage'],
-                $context)) {
+        if (has_any_capability(['moodle/competency:usercompetencyview', 'moodle/competency:coursecompetencymanage'], $context)) {
             $currentgroup = groups_get_activity_group($cm, true);
             if ($currentgroup !== false) {
                 $select = groups_print_activity_menu($cm, $PAGE->url, true);
@@ -119,8 +117,11 @@ class user_coursemodule_navigation implements renderable, templatable {
                 $urloptions['group'] = $currentgroup;
             }
             $ratingbtnurl = new \moodle_url('/report/cmcompetency/bulkrating.php', $urloptions);
-            $data->btnbulkrating = $OUTPUT->single_button($ratingbtnurl,
-                    get_string('bulkdefaultrating', 'report_cmcompetency'), 'get');
+            $data->btnbulkrating = $OUTPUT->single_button(
+                $ratingbtnurl,
+                get_string('bulkdefaultrating', 'report_cmcompetency'),
+                'get'
+            );
         } else {
             $data->users = [];
             $data->hasusers = false;
