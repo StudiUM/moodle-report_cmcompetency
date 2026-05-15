@@ -90,7 +90,7 @@ if (has_capability('moodle/competency:competencygrade', $context)) {
             $currentgroup = groups_get_activity_group($cm, true);
             if ($currentgroup !== false) {
                 $groupselect = groups_print_activity_menu($cm, $PAGE->url, true);
-                echo $output->container($groupselect, 'pull-left border p-2 mb-2');
+                echo $output->container($groupselect, 'float-start border p-2 mb-2');
             }
             echo $output->container('', 'clearfix');
             $exist = \report_cmcompetency\api::rating_task_exist($currentcmid, $currentgroup);
