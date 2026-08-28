@@ -1,10 +1,10 @@
 <div data-region="competency-breakdown-report" data-cmid="{{cmid}}" data-userid="{{userid}}">
 <div class="row">
-<span class="span6">
+<div class="col-6">
     <table class="table table-bordered" id="coursemodulecompetencies">
-        <summary class="accesshide">
-            <p>{{#str}}cmcompetencybreakdownsummary, report_cmcompetency{{/str}}</p>
-        </summary>
+        <caption class="accesshide">
+            {{#str}}cmcompetencybreakdownsummary, report_cmcompetency{{/str}}
+        </caption>
         <thead>
             <tr>
                 <th scope="col">
@@ -36,7 +36,7 @@
         </tr>
         {{/usercompetencies}}
     </table>
-</span>
+</div>
 </div>
 </div>
 {{#js}}
