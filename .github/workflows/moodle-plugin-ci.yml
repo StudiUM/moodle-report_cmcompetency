@@ -14,4 +14,5 @@ jobs:
       moodle-branches: '["MOODLE_501_STABLE"]'
       php-versions: '["8.4", "8.3"]'
       databases: '["mariadb", "pgsql"]'
-
+      dependent-plugins: |
+        --branch main StudiUM/moodle-tool_cmcompetency
