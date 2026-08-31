@@ -127,23 +127,35 @@ class api {
         if (empty($group)) {
             $group = 0;
         }
-        $exist = false;
         $tasks = \core\task\manager::get_adhoc_tasks('report_cmcompetency\task\rate_users_in_coursemodules');
         foreach ($tasks as $task) {
             $cmdata = $task->get_custom_data();
-            if ($cmdata->cms && $cmdata->cms->cmid == $cmid) {
-                // There is already a task for this specific group, or for the whole course,
-                // or for a group when trying to make one for the whole course.
-                if (
-                    $cmdata->cms->group == $group ||
-                    ($group == 0 && $cmdata->cms->group != 0) ||
-                    ($group != 0 && $cmdata->cms->group == 0)
-                ) {
-                    $exist = true;
-                    break;
-                }
+            if (!isset($cmdata->cms) || $cmdata->cms->cmid != $cmid) {
+                continue;
+            }
+
+            if (self::matches_rating_task_group($cmdata->cms->group, $group)) {
+                return true;
             }
         }
-        return $exist;
+
+        return false;
+    }
+
+    /**
+     * Check whether a queued task group conflicts with the requested group.
+     *
+     * @param int $taskgroup The group queued on the task.
+     * @param int $group The group requested for the new task.
+     * @return bool
+     */
+    protected static function matches_rating_task_group($taskgroup, $group) {
+        if (empty($taskgroup)) {
+            $taskgroup = 0;
+        }
+
+        // There is already a task for this specific group, or for the whole course,
+        // or for a group when trying to make one for the whole course.
+        return $taskgroup == $group || $taskgroup == 0 || $group == 0;
     }
 }

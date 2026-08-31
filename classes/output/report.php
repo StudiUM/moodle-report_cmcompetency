@@ -77,14 +77,14 @@ class report implements renderable, templatable {
 
         $data->usercompetencies = [];
         $cmcompetencies = core_competency_api::list_course_module_competencies($this->cmid);
-        $usercompetencycoursesmodules = tool_cmcompetency_api::list_user_competencies_in_coursemodule($this->cmid, $user->id);
+        $usercmcomps = tool_cmcompetency_api::list_user_competencies_in_coursemodule($this->cmid, $user->id);
 
         $helper = new performance_helper();
-        foreach ($usercompetencycoursesmodules as $usercompetencycoursemodule) {
+        foreach ($usercmcomps as $usercmcomp) {
             $onerow = new stdClass();
             $competency = null;
             foreach ($cmcompetencies as $cmcompetency) {
-                if ($cmcompetency['competency']->get('id') == $usercompetencycoursemodule->get('competencyid')) {
+                if ($cmcompetency['competency']->get('id') == $usercmcomp->get('competencyid')) {
                     $competency = $cmcompetency['competency'];
                     break;
                 }
@@ -96,7 +96,7 @@ class report implements renderable, templatable {
             $framework = $helper->get_framework_from_competency($competency);
             $scale = $helper->get_scale_from_competency($competency);
 
-            $exporter = new user_competency_cm_exporter($usercompetencycoursemodule, ['scale' => $scale]);
+            $exporter = new user_competency_cm_exporter($usercmcomp, ['scale' => $scale]);
             $record = $exporter->export($output);
             $onerow->usercompetencycoursemodule = $record;
             $exporter = new competency_summary_exporter(null, [

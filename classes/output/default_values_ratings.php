@@ -63,17 +63,17 @@ class default_values_ratings implements renderable, templatable {
     /**
      * Export the data.
      *
-     * @param renderer_base $output
+     * @param renderer_base $_output
      * @return stdClass
      */
-    public function export_for_template(renderer_base $output) {
+    public function export_for_template(renderer_base $_output) {
         $data = new stdClass();
         $comps = \core_competency\course_module_competency::list_competencies($this->cmid);
         $data->submitdisabled = \report_cmcompetency\api::rating_task_exist($this->cmid, $this->group);
         $data->hascompetencies = count($comps) == 0 ? 0 : 1;
         $data->courseid = $this->courseid;
         $data->cmid = $this->cmid;
-        $datascalecompetencies = [];
+        $scalecompdata = [];
         foreach ($comps as $comp) {
             $compscale = [];
             $compscale['compid'] = $comp->get('id');
@@ -91,9 +91,9 @@ class default_values_ratings implements renderable, templatable {
                 $s['default'] = $comp->get_default_grade()[0] == ($key + 1) ? 1 : 0;
                 $compscale['scalevalues'][] = $s;
             }
-            $datascalecompetencies[] = $compscale;
+            $scalecompdata[] = $compscale;
         }
-        $data->datascalecompetencies = $datascalecompetencies;
+        $data->datascalecompetencies = $scalecompdata;
 
         return $data;
     }

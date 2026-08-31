@@ -69,7 +69,7 @@ class user_coursemodule_navigation implements renderable, templatable {
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
-        global $CFG, $PAGE, $OUTPUT;
+        global $PAGE, $OUTPUT;
 
         $data = new stdClass();
         $data->userid = $this->userid;
@@ -85,10 +85,6 @@ class user_coursemodule_navigation implements renderable, templatable {
                 $select = groups_print_activity_menu($cm, $PAGE->url, true);
                 $data->groupselector = $select;
             }
-
-            // Fetch current active group.
-            $groupmode = groups_get_activity_groupmode($cm);
-
             $users = \tool_cmcompetency\api::get_cm_gradable_users($context, $cm, $currentgroup, false);
             $data->users = [];
             $users = array_values($users);

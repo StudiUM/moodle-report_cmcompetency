@@ -107,6 +107,36 @@ final class api_test extends \externallib_advanced_testcase {
     }
 
     /**
+     * Assert the competency grades for the test students.
+     *
+     * @param int $cmid The course module id.
+     * @param array $competencies The competencies keyed by short alias.
+     * @param array $expectedgrades The expected grades keyed by student and competency alias.
+     */
+    protected function assert_user_competency_grades($cmid, array $competencies, array $expectedgrades): void {
+        $studentids = [
+            'student1' => $this->student1->id,
+            'student2' => $this->student2->id,
+            'student3' => $this->student3->id,
+        ];
+
+        foreach ($expectedgrades as $studentkey => $grades) {
+            foreach ($grades as $compkey => $expectedgrade) {
+                $ucc = \tool_cmcompetency\api::get_user_competency_in_coursemodule(
+                    $cmid,
+                    $studentids[$studentkey],
+                    $competencies[$compkey]->get('id')
+                );
+                if ($expectedgrade === null) {
+                    $this->assertNull($ucc->get('grade'));
+                } else {
+                    $this->assertEquals($expectedgrade, $ucc->get('grade'));
+                }
+            }
+        }
+    }
+
+    /**
      * Test add_rating_task when no separated groups in the activity.
      */
     public function test_add_rating_task_without_group(): void {
@@ -362,18 +392,11 @@ final class api_test extends \externallib_advanced_testcase {
         $this->setUser($this->teacher1);
         \report_cmcompetency\api::rate_users_in_cm_with_defaultvalues($datascales);
         // Test only users from team 2 are rated in cmp1 and cmp2.
-        $u1c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c1->get('id'));
-        $u1c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c2->get('id'));
-        $u2c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c1->get('id'));
-        $u2c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c2->get('id'));
-        $u3c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student3->id, $c1->get('id'));
-        $u3c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student3->id, $c2->get('id'));
-        $this->assertNull($u1c1->get('grade'));
-        $this->assertNull($u1c2->get('grade'));
-        $this->assertEquals(4, $u2c1->get('grade'));
-        $this->assertEquals(2, $u2c2->get('grade'));
-        $this->assertEquals(4, $u3c1->get('grade'));
-        $this->assertEquals(2, $u3c2->get('grade'));
+        $this->assert_user_competency_grades($cm->id, ['c1' => $c1, 'c2' => $c2], [
+            'student1' => ['c1' => null, 'c2' => null],
+            'student2' => ['c1' => 4, 'c2' => 2],
+            'student3' => ['c1' => 4, 'c2' => 2],
+        ]);
         // Test rating with other values of scales, for the whole course.
         $datascales = [];
         $datascales['cms'] = ['cmid' => $cm->id, 'group' => 0, 'scalevalues' => [['compid' => $c1->get('id'), 'value' => 1],
@@ -383,18 +406,11 @@ final class api_test extends \externallib_advanced_testcase {
         $this->setUser($this->teacher1);
         \report_cmcompetency\api::rate_users_in_cm_with_defaultvalues($datascales);
         // Team 1 rated but no ratings changed for Team 2.
-        $u1c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c1->get('id'));
-        $u1c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student1->id, $c2->get('id'));
-        $u2c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c1->get('id'));
-        $u2c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student2->id, $c2->get('id'));
-        $u3c1 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student3->id, $c1->get('id'));
-        $u3c2 = \tool_cmcompetency\api::get_user_competency_in_coursemodule($cm->id, $this->student3->id, $c2->get('id'));
-        $this->assertEquals(1, $u1c1->get('grade'));
-        $this->assertEquals(3, $u1c2->get('grade'));
-        $this->assertEquals(4, $u2c1->get('grade'));
-        $this->assertEquals(2, $u2c2->get('grade'));
-        $this->assertEquals(4, $u3c1->get('grade'));
-        $this->assertEquals(2, $u3c2->get('grade'));
+        $this->assert_user_competency_grades($cm->id, ['c1' => $c1, 'c2' => $c2], [
+            'student1' => ['c1' => 1, 'c2' => 3],
+            'student2' => ['c1' => 4, 'c2' => 2],
+            'student3' => ['c1' => 4, 'c2' => 2],
+        ]);
     }
 
     /**
