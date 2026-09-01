@@ -15,12 +15,13 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template report_cmcompetency/default_values_ratings
+    @template report_cmcompetency/bulk_rating
 
     Context variables required for this template:
     * datascalecompetencies - object containing:
         * compid - competency id
         * idnumber - competency idnumber
+        * compshortname - competency shortname
         * scaleid - scale id
         * scalevalues - object containing:
             * value - scale item value
@@ -28,7 +29,29 @@
             * proficient - boolean True if proficient
             * default - boolean True if default
     * courseid - course id
+    * cmid - course module id
     * hascompetencies - boolean
+    * submitdisabled - boolean true if the save button should be disabled
+
+    Example context (json):
+    {
+        "hascompetencies": true,
+        "courseid": 2,
+        "cmid": 3,
+        "submitdisabled": false,
+        "datascalecompetencies": [
+            {
+                "compid": 1,
+                "idnumber": "COMPA",
+                "compshortname": "Competency A",
+                "scaleid": 1,
+                "scalevalues": [
+                    {"value": 1, "name": "Not yet competent", "proficient": false, "default": true},
+                    {"value": 2, "name": "Competent", "proficient": true, "default": false}
+                ]
+            }
+        ]
+    }
  }}
 {{#hascompetencies}}
     <form id="savescalesvalues">
@@ -56,9 +79,9 @@
                         {{#scalevalues}}
                         <tr class="tool_lp_scale_config">
                             <td>{{name}}</td>
-                            <td><input type="radio" name="scale_{{compid}}" data-compid="{{compid}}" value="{{value}}" {{#default}}checked="checked"{{/default}} />
+                            <td><input type="radio" name="scale_{{compid}}" data-compid="{{compid}}" value="{{value}}" {{#default}}checked="checked"{{/default}}>
                             {{#proficient}}
-                            <span aria-selected="true" class="badge text-bg-info" >
+                            <span class="badge text-bg-info">
                             {{#str}}proficient, tool_lp{{/str}}
                             </span>
                             {{/proficient}}
@@ -68,17 +91,17 @@
                     </tbody>
                 </table>
                 <div class="donotapplybulk">
-                    <label><input type="checkbox" data-compid="{{compid}}" />{{#str}}donotapplybulk, report_cmcompetency{{/str}}</label>
+                    <label><input type="checkbox" data-compid="{{compid}}">{{#str}}donotapplybulk, report_cmcompetency{{/str}}</label>
                 </div>
             </div>
             {{/datascalecompetencies}}
         </div>
-        <div id="msg-success-cmrating"class="alert alert-success alert-block fade in hidden">
+        <div id="msg-success-cmrating" class="alert alert-success alert-block fade in hidden">
             <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
             {{#str}}successtaskmsg, report_cmcompetency{{/str}}
         </div>
         <div data-region="scale-buttons" class="m-t-1 float-end">
-            <input type="submit" class="btn btn-primary" data-action="submit" value="{{#str}}save{{/str}}" {{#submitdisabled}}disabled{{/submitdisabled}} />
+            <input type="submit" class="btn btn-primary" data-action="submit" value="{{#str}}save{{/str}}" {{#submitdisabled}}disabled{{/submitdisabled}}>
         </div>
     </form>
 {{/hascompetencies}}

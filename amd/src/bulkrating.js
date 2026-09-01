@@ -59,9 +59,9 @@ define(['jquery',
             var self = this,
                 requests;
 
-            $('#savescalesvalues .enabled input[type=radio]:checked').each(function () {
+            $('#savescalesvalues .enabled input[type=radio]:checked').each(function() {
                 var compid = $(this).data('compid');
-                scalesvalues.push({compid : compid, value : $(this).val()});
+                scalesvalues.push({compid: compid, value: $(this).val()});
             });
             scalesvalues = JSON.stringify(scalesvalues);
             var group = $('#selectgroup select[name=group]');
