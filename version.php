@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version   = 2026050400;
 $plugin->requires  = 2025100600;
-$plugin->release   = '2.0.0';
+$plugin->release   = '2.0.1 (Build 2026050400)';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->component = 'report_cmcompetency'; // Full name of the plugin (used for diagnostics).
 
