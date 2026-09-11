@@ -91,7 +91,7 @@ define(['jquery', 'core/notification', 'core/str', 'core/ajax', 'core/log', 'cor
                         self.popup = modal;
                         self.popup.getRoot().on(ModalEvents.hidden, self._refresh.bind(self));
                         self.popup.show();
-                    }.bind(this));
+                    });
             }).fail(notification.exception);
 
         };

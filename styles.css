@@ -10,7 +10,7 @@
     font-size: 26px;
     display: inline-block;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     opacity: 0;
     animation-name: display-arrows-navigation;
     -webkit-animation-name: display-arrows-navigation;
@@ -31,51 +31,54 @@
 .user-competency-course-navigation.coursemodule [data-action="next-user"] {
     margin-left: 3px;
 }
-.user-competency-course-navigation.coursemodule .badge.badge-info m-b-1 {
-    margin-bottom: 0.4rem !important;
+.user-competency-course-navigation.coursemodule .badge.badge-info.m-b-1 {
+    margin-bottom: 0.4rem;
 }
-.user-competency-course-navigation.coursemodule span>.d-md-inline-block.position-relative {
+.user-competency-course-navigation.coursemodule span > .d-md-inline-block.position-relative {
     display: inline-block;
 }
 
 @keyframes display-arrows-navigation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+
 @-webkit-keyframes display-arrows-navigation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+
 @-moz-keyframes display-arrows-navigation {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
+
 .scale-comp-container {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-flow: row wrap;
-    -webkit-flex-flow: row wrap;
 }
 .scale-comp-container .scale-comp-item {
     flex: 0 1 315px;
-    -webkit-flex: 0 1 315px;
-    -ms-flex: 0 1 315px;
     margin-right: 15px;
     min-width: 315px;
     border: 1px solid #ccc;
     margin-bottom: 15px;
     padding-left: 5px;
     padding-right: 5px;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-flow: column wrap;
-    -webkit-flex-flow: column wrap;
     justify-content: space-between;
 }
 .scale-comp-container .scale-comp-item .donotapplybulk {

@@ -88,7 +88,7 @@ define(['jquery',
                     return;
                 }
                 var valgroup = applyGroup.prop('checked');
-                if( valgroup !== true ) {
+                if (valgroup !== true) {
                     valgroup = false;
                 }
                 this._trigger('rated', {
@@ -101,7 +101,7 @@ define(['jquery',
         };
 
         /**
-         * destroy the dialogue.
+         * Destroy the dialogue.
          *
          * @method destroy
          */
